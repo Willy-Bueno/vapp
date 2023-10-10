@@ -8,10 +8,6 @@ export const useBusinessStore = defineStore('business_store', {
     business: null as Business | null,
   }),
 
-  getters: {
-    hasBusinessInfo: (state) => !!state.business
-  },
-
   actions: {
     async getBusinessById(id: string) {
       const { data, error } = await supabase.from('business').select('*').eq('id', id).single()
@@ -31,7 +27,5 @@ export const useBusinessStore = defineStore('business_store', {
       if (error) throw error
       this.business = data
     }
-  },
-
-  persist: true
+  }
 })

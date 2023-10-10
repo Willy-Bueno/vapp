@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { CheckboxRootEmits, CheckboxRootProps } from 'radix-vue'
 import { CheckboxIndicator, CheckboxRoot } from 'radix-vue'
-import { CheckIcon } from '@radix-icons/vue'
+import CheckIcon from '@/components/icons/CheckIcon.vue';
 import { cn, useEmitAsProps } from '@/lib/utils'
 
 const props = defineProps<CheckboxRootProps>()

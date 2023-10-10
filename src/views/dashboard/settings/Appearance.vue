@@ -1,50 +1,49 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue'
-import { useDark } from '@vueuse/core'
+  import { ref, watch, onMounted } from 'vue'
+  import { useDark } from '@vueuse/core'
+  import * as z from 'zod'
 
-import { Loader2 } from 'lucide-vue-next'
+  import { cn } from '@/lib/utils'
 
-import * as z from 'zod'
+  import { Loader2 } from 'lucide-vue-next'
 
-import { cn } from '@/lib/utils'
+  import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+  import { Label } from '@/components/ui/label'
+  import { Button } from '@/components/ui/button'
 
-import { Label } from '@/components/ui/label'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Button } from '@/components/ui/button'
+  const isDark = useDark({ storageKey: 'theme' })
 
-const isDark = useDark({ storageKey: 'theme' })
-
-watch(isDark, () => {
-  appearenceForm.value.theme = isDark.value ? 'dark' : 'light'
-})
-
-const isLoading = ref(false)
-const appearenceForm = ref({
-  theme: 'light'
-})
-
-const appearanceFormSchema = z.object({
-  theme: z.enum(['light', 'dark'], {
-    required_error: 'Por favor selecione um tema.',
+  watch(isDark, () => {
+    appearenceForm.value.theme = isDark.value ? 'dark' : 'light'
   })
-})
 
-type AppearanceFormValues = z.infer<typeof appearanceFormSchema>
-const errors = ref<z.ZodFormattedError<AppearanceFormValues> | null>(null)
+  const isLoading = ref(false)
+  const appearenceForm = ref({
+    theme: 'light'
+  })
 
-async function handleSubmit() {
-  const result = appearanceFormSchema.safeParse(appearenceForm.value)
-  if (!result.success) {
-    errors.value = result.error.format()
-    console.log(errors.value)
-    return
+  const appearanceFormSchema = z.object({
+    theme: z.enum(['light', 'dark'], {
+      required_error: 'Por favor selecione um tema.',
+    })
+  })
+
+  type AppearanceFormValues = z.infer<typeof appearanceFormSchema>
+  const errors = ref<z.ZodFormattedError<AppearanceFormValues> | null>(null)
+
+  async function handleSubmit() {
+    const result = appearanceFormSchema.safeParse(appearenceForm.value)
+    if (!result.success) {
+      errors.value = result.error.format()
+      console.log(errors.value)
+      return
+    }
+
+    if (appearenceForm.value.theme === 'dark') isDark.value = true
+    else isDark.value = false
   }
 
-  if (appearenceForm.value.theme === 'dark') isDark.value = true
-  else isDark.value = false
-}
-
-onMounted(() => appearenceForm.value.theme = isDark.value ? 'dark' : 'light')
+  onMounted(() => appearenceForm.value.theme = isDark.value ? 'dark' : 'light')
 </script>
 
 <template>

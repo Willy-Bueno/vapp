@@ -9,7 +9,7 @@ import {
   useEmitAsProps
 } from 'radix-vue'
 import { cva } from 'class-variance-authority'
-import { Cross2Icon } from '@radix-icons/vue'
+import Cross2Icon from '@/components/icons/Cross2Icon.vue';
 import { cn } from '@/lib/utils'
 
 interface SheetContentProps extends DialogContentProps {

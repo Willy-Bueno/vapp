@@ -18,6 +18,6 @@ supabase.auth.onAuthStateChange((event, session) => {
 </script>
 
 <template>
-  <Toaster />
+  <Toaster position="top-right" />
   <RouterView />
 </template>
