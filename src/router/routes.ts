@@ -4,13 +4,12 @@ import WelcomeLayout from '@/layouts/WelcomeLayout.vue'
 import SurveyLayout from '@/layouts/SurveyLayout.vue'
 
 import SignIn from '@/views/authentication/SignIn.vue'
-import SignUp from '@/views/authentication/SignIn.vue'
+import SignUp from '@/views/authentication/SignUp.vue'
 
 import RegisterBusiness from '@/views/start/register/Business.vue'
 import InviteWithLink from '@/views/start/invite/Invite.vue'
 
 
-import Overview from '@/views/dashboard/Overview.vue'
 import SurveysOverview from '@/views/dashboard/questionnaires/Surveys.vue'
 import Survey from '@/views/dashboard/questionnaires/questionnaire/Survey.vue'
 import Settings from '@/views/dashboard/settings/Settings.vue'
@@ -70,7 +69,7 @@ export const routes = [
       {
         path: '',
         name: 'dashboard',
-        component: Overview,
+        redirect: { name: 'surveys' },
       },
 
       {
