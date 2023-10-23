@@ -14,11 +14,11 @@ router.beforeEach(async (to, _, next) => {
   await authStore.fetchSession()
 
   if (to.matched.some((record) => record.meta.requiresAuth && !authStore.isAuthenticated)) {
-    const token = to.path.split('/').pop()
+    const token = to.query.token as string
     if (token) localStorage.setItem('invite-token', token)
     next({ name: 'login' })
   }
-  else if (authStore.isAuthenticated && to.path.startsWith('/auth')) next({ name: 'settings' })
+  else if (authStore.isAuthenticated && to.path.startsWith('/auth')) next({ name: 'surveys' })
   else if (to.matched.some((record) => record.meta.requiresCompany)) {
     if (localStorage.getItem('invite-token')) {
       const token = localStorage.getItem('invite-token')

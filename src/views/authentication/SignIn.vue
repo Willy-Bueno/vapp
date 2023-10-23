@@ -25,7 +25,7 @@ const isDisabled = computed(() => googleIsLoading.value || emailIsLoading.value)
 const handleGoogleLogin = async () => {
   googleIsLoading.value = true
   await authStore.loginWithGoogle()
-  router.push({ name: 'surveys' })
+  router.push({ path: '/surveys' })
   googleIsLoading.value = false
 }
 

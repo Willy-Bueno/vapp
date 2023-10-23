@@ -65,6 +65,11 @@ export const routes = [
     },
     children: [
       {
+        path: '',
+        redirect: { name: 'surveys' },
+      },
+
+      {
         path: 'surveys',
         children: [
           {
