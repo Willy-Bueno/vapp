@@ -18,9 +18,9 @@ type Response = Tables<'responses'> & {
     questions: Tables<'questions'>[] & {
       question_types: Tables<'question_types'>
       options: Tables<'options'>[]
-      answers: Tables<'answers'> & {
+      answers: Array<Tables<'answers'> & {
         answer_options: Array<Tables<'answer_options'>> | null
-      }[]
+      }>
     }[]
   }
 }
@@ -38,18 +38,14 @@ onMounted(async () => {
   <p class="text-sm text-muted-foreground">
     Aqui você pode visualizar as respostas dos participantes dos seus questionários.
   </p>
-  <div class="space-y-8 mt-8">
-    <div v-if="responses && !!responses.length">
-      <div v-for="response in responses" :key="response.id">
-        <ResponseSheet :response="response" />
-      </div>
-    </div>
-    <div v-else>
-      <Card>
-        <CardContent class="flex justify-center items-center p-6">
-          <span class="text-lg text-muted-foreground">Ainda não há respostas.</span>
-        </CardContent>
-      </Card>
-    </div>
+  <div class="space-y-2 mt-8" v-if="responses && !!responses.length">
+    <ResponseSheet v-for="response in responses" :key="response.id" :response="response" />
+  </div>
+  <div v-else>
+    <Card>
+      <CardContent class="flex justify-center items-center p-6">
+        <span class="text-lg text-muted-foreground">Ainda não há respostas.</span>
+      </CardContent>
+    </Card>
   </div>
 </template>

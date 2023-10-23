@@ -72,7 +72,7 @@ function copyLink (surveyId: string) {
                 <div class="space-y-8">
                   <div>
                     <h1 class="text-lg font-bold">Entrevista presencial.</h1>
-                    <p class="text-sm text-muted-foreground">O entrvistador cadastra o participante e realiza a entrevista presencialmente.</p>
+                    <p class="text-sm text-muted-foreground">O entrevistador cadastra o participante e realiza a entrevista presencialmente.</p>
                   </div>
                 </div>
               </CardContent>
@@ -82,7 +82,7 @@ function copyLink (surveyId: string) {
                 <div class="space-y-8">
                   <div>
                     <h1 class="text-lg font-bold">Entrevista remota com participante já cadastrado.</h1>
-                    <p class="text-sm text-muted-foreground">O entrvistador cadastra o participante e compartilha o link para que ele responda a pesquisa.</p>
+                    <p class="text-sm text-muted-foreground">O entrevistador cadastra o participante e compartilha o link para que ele responda a pesquisa.</p>
                   </div>
                 </div>
               </CardContent>
@@ -92,7 +92,7 @@ function copyLink (surveyId: string) {
                 <div class="space-y-8">
                   <div>
                     <h1 class="text-lg font-bold">Entrevista totalmente remota.<span class="text-sm text-muted-foreground">(Clique para copiar o link)</span></h1>
-                    <p class="text-sm text-muted-foreground">O entrvistador compartilha o link e o participante cadastra suas informações e responde a pesquisa.</p>
+                    <p class="text-sm text-muted-foreground">O entrevistador compartilha o link e o participante cadastra suas informações e responde a pesquisa.</p>
                   </div>
                 </div>
               </CardContent>

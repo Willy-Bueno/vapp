@@ -22,9 +22,9 @@ type Response = Tables<'responses'> & {
     questions: Tables<'questions'>[] & {
       question_types: Tables<'question_types'>
       options: Tables<'options'>[]
-      answers: Tables<'answers'> & {
+      answers: Array<Tables<'answers'> & {
         answer_options: Array<Tables<'answer_options'>> | null
-      }[]
+      }>
     }[]
   }
 }

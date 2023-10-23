@@ -27,9 +27,9 @@ type Response = Tables<'responses'> & {
     questions: Tables<'questions'>[] & {
       question_types: Tables<'question_types'>
       options: Tables<'options'>[]
-      answers: Tables<'answers'> & {
+      answers: Array<Tables<'answers'> & {
         answer_options: Array<Tables<'answer_options'>> | null
-      }[]
+      }>
     }[]
   }
 }
@@ -102,8 +102,8 @@ const props = defineProps<{
             {{ `${question.order} - ${question.question_text}` }}
           </h1>
           <div v-if="question.question_types.slug === 'text'">
-            <div v-if="question.answers.answer">
-              <p>{{ question.answers.answer }}</p>
+            <div v-if="question.answers.find((answer) => answer.response_id === response.id)">
+              <p>{{ question.answers.find((answer) => answer.response_id === response.id)?.answer }}</p>
             </div>
             <div v-else>
               <p class="text-sm text-muted-foreground">Pergunta opcional não respondida.</p>
