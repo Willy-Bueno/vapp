@@ -1,29 +1,27 @@
-import AuthLayout from '@/layouts/AuthLayout.vue'
-import MainLayout from '@/layouts/MainLayout.vue'
-import WelcomeLayout from '@/layouts/WelcomeLayout.vue'
 import SurveyLayout from '@/layouts/SurveyLayout.vue'
+import StartLayout from '@/layouts/StartLayout.vue'
+import MainLayout from '@/layouts/MainLayout.vue'
 
 import SignIn from '@/views/authentication/SignIn.vue'
 import SignUp from '@/views/authentication/SignUp.vue'
 
-import RegisterBusiness from '@/views/start/register/Business.vue'
-import InviteWithLink from '@/views/start/invite/Invite.vue'
+import RegisterCompany from '@/views/welcome/register/Company.vue'
+import Invite from '@/views/welcome/invite/Invite.vue'
 
-
-import SurveysOverview from '@/views/dashboard/questionnaires/Surveys.vue'
-import Survey from '@/views/dashboard/questionnaires/questionnaire/Survey.vue'
-import Settings from '@/views/dashboard/settings/Settings.vue'
-import SaveParticipant from '@/views/dashboard/questionnaires/interview/SaveParticipant.vue'
-import SaveResponse from '@/views/dashboard/questionnaires/interview/SaveResponse.vue'
-import ShareLinkSurvey from '@/views/dashboard/questionnaires/interview/ShareLinkSurvey.vue'
-import SurveyInterviewFinished from '@/views/dashboard/questionnaires/interview/SurveyInterviewFinished.vue'
-import ThankYou from '@/views/dashboard/questionnaires/interview/ThankYou.vue'
+import RegisterRespondent from '@/views/surveys/interview/RegisterRespondent.vue'
+import RegisterResponse from '@/views/surveys/interview/RegisterResponse.vue'
+import ShareLink from '@/views/surveys/interview/ShareLink.vue'
+import Congrats from '@/views/surveys/interview/Congrats.vue'
+import Finished from '@/views/surveys/interview/Finished.vue'
+import Survey from '@/views/surveys/survey/Survey.vue'
+import Settings from '@/views/settings/Settings.vue'
+import Surveys from '@/views/surveys/Surveys.vue'
 
 
 export const routes = [
   {
     path: '/auth',
-    component: AuthLayout,
+    component: StartLayout,
     children: [
       {
         name: 'login',
@@ -39,21 +37,21 @@ export const routes = [
   },
 
   {
-    path: '/start',
-    name: 'start',
-    component: WelcomeLayout,
+    path: '/welcome',
+    name: 'welcome',
+    component: StartLayout,
     meta: { requiresAuth: true },
     children: [
       {
         path: '',
-        name: 'register-business',
-        component: RegisterBusiness,
+        name: 'add-company',
+        component: RegisterCompany,
       },
 
       {
-        path: 'invite/:token',
+        path: '/invite/:token',
         name: 'invite',
-        component: InviteWithLink,
+        component: Invite,
       }
     ],
   },
@@ -63,68 +61,66 @@ export const routes = [
     component: MainLayout,
     meta: {
       requiresAuth: true,
-      requiresBusinessInfos: true,
+      requiresCompany: true,
     },
     children: [
       {
-        path: '',
-        name: 'dashboard',
-        redirect: { name: 'surveys' },
-      },
-
-      {
         path: 'surveys',
-        name: 'surveys',
-        component: SurveysOverview,
+        children: [
+          {
+            path: '',
+            name: 'surveys',
+            component: Surveys,
+          },
+          {
+            path: ':id',
+            name: 'survey',
+            component: Survey,
+          },
+        ]
       },
-
-      {
-        path: 'survey/:id',
-        name: 'survey',
-        component: Survey,
-      },
-
       {
         path: 'settings',
         name: 'settings',
         component: Settings,
-      },
+      }
     ],
   },
 
   {
-    path: '/ask',
+    path: '/survey',
+    name: 'interview',
     component: SurveyLayout,
     children: [
       {
-        path: 'participant/:surveyId',
-        name: 'save-participant',
-        component: SaveParticipant,
+        path: ':id',
+        name: 'register-respondent',
+        component: RegisterRespondent,
       },
 
       {
-        path: 'share-link/:surveyId/:participantId',
+        path: ':id/:responseId',
+        name: 'register-response',
+        component: RegisterResponse,
+      },
+
+      {
+        path: ':id/finished',
+        name: 'finished',
+        component: Finished,
+      },
+
+      {
+        path: ':id/:responseId/share-link',
         name: 'share-link',
-        component: ShareLinkSurvey,
+        component: ShareLink,
       },
 
       {
-        path: ':surveyId/:participantId',
-        name: 'save-response',
-        component: SaveResponse,
-      },
-
-      {
-        path: 'thank-you',
-        name: 'thank-you',
-        component: ThankYou,
-      },
-
-      {
-        path: 'finished',
-        name: 'survey-interview-finished',
-        component: SurveyInterviewFinished,
-      },
-    ]
+        path: 'congrats',
+        name: 'congrats',
+        component: Congrats,
+      }
+    ],
   }
 ]
