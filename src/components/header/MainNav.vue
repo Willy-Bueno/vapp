@@ -9,7 +9,7 @@ const navigationLinks = computed(() => {
 
   const links = [
     {
-      name: 'Surveys',
+      name: 'Questionários',
       path: '/surveys',
       current: path.startsWith('/surveys'),
     },

@@ -14,7 +14,6 @@ import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -73,12 +72,6 @@ onMounted(async () => {
           </p>
         </div>
       </DropdownMenuLabel>
-      <DropdownMenuSeparator />
-      <DropdownMenuGroup>
-        <DropdownMenuItem>
-          Configurações
-        </DropdownMenuItem>
-      </DropdownMenuGroup>
       <DropdownMenuSeparator />
       <DropdownMenuItem @click="handleLogout">
         Sair
