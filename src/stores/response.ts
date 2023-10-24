@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import supabase from '@/lib/supabase'
+import { useCompanyStore } from '@/stores/company'
 
 import { Tables, Insert } from '@/types'
 
@@ -25,31 +26,63 @@ export const useResponseStore = defineStore('response_store', {
 
   actions: {
     async getResponses() {
-      const { data, error } = await supabase.from('responses').select('*, respondents(*), surveys(*, questions(*, question_types(*), options(*), answers(*, answer_options(*))))').eq('status', 'completed')
+      const companyStore = useCompanyStore()
+      if (companyStore.company === null) throw new Error('Company not found')
+
+      const { data, error } = await supabase
+        .from('responses')
+        .select('*, respondents(*), surveys!inner(*, questions(*, question_types(*), options(*), answers(*, answer_options(*))))')
+        .eq('status', 'completed')
+        .eq('surveys.company_id', companyStore.company.id)
+        .order('created_at', { ascending: false })
       if (error) throw error
       this.responses = data
     },
 
     async getRecentResponses() {
-      const { data, error } = await supabase.from('responses').select('*, respondents(*), surveys(*, questions(*, question_types(*), options(*), answers(*, answer_options(*))))').eq('status', 'completed').order('created_at', { ascending: false }).limit(3)
+      const companyStore = useCompanyStore()
+      if (companyStore.company === null) throw new Error('Company not found')
+
+      const { data, error } = await supabase
+        .from('responses')
+        .select('*, respondents(*), surveys!inner(*, questions(*, question_types(*), options(*), answers(*, answer_options(*))))')
+        .eq('status', 'completed')
+        .eq('surveys.company_id', companyStore.company.id)
+        .order('created_at', { ascending: false })
+        .limit(3);
       if (error) throw error
       this.responses = data
     },
 
     async getPendingResponsesBySurveyId(id: string) {
-      const { data, error } = await supabase.from('responses').select('*, respondents(*), surveys(*, questions(*, question_types(*), options(*), answers(*, answer_options(*))))').eq('status', 'pending').eq('survey_id', id).order('created_at', { ascending: false })
+      const { data, error } = await supabase
+        .from('responses').select('*, respondents(*), surveys(*, questions(*, question_types(*), options(*), answers(*, answer_options(*))))')
+        .eq('status', 'pending')
+        .eq('survey_id', id)
+        .order('created_at', { ascending: false })
       if (error) throw error
       this.responses = data
     },
 
     async getResponsesBySurveyId(id: string) {
-      const { data, error } = await supabase.from('responses').select('*, respondents(*), surveys(*, questions(*, question_types(*), options(*), answers(*, answer_options(*))))').eq('status', 'completed').eq('survey_id', id)
+      const { data, error } = await supabase
+        .from('responses')
+        .select('*, respondents(*), surveys(*, questions(*, question_types(*), options(*), answers(*, answer_options(*))))')
+        .eq('status', 'completed')
+        .eq('survey_id', id)
       if (error) throw error
       this.responses = data
     },
 
     async getResponsesCount() {
-      const { count, error } = await supabase.from('responses').select('*, respondents(*), surveys(*, questions(*, question_types(*), options(*), answers(*, answer_options(*))))', { count: 'exact', head: true }).eq('status', 'completed')
+      const companyStore = useCompanyStore()
+      if (companyStore.company === null) throw new Error('Company not found')
+
+      const { count, error } = await supabase
+        .from('responses')
+        .select('*, respondents(*), surveys!inner(*, questions(*, question_types(*), options(*), answers(*, answer_options(*))))', { count: 'exact', head: true })
+        .eq('surveys.company_id', companyStore.company.id)
+        .eq('status', 'completed')
       if (error) throw error
       this.responsesCount = count
     },

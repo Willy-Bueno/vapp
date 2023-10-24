@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import supabase from '@/lib/supabase'
+import { useCompanyStore } from '@/stores/company'
 
 import { Tables, Insert, Update } from '@/types'
 
@@ -22,45 +23,86 @@ export const useSurveyStore = defineStore('survey_store', {
 
   actions: {
     async getSurvey(id: string) {
-      const { data, error } = await supabase.from('surveys').select('*, survey_status(*), questions(*, options(*), question_types(*))').eq('id', id).single()
+      const { data, error } = await supabase
+        .from('surveys')
+        .select('*, survey_status(*), questions(*, options(*), question_types(*))')
+        .eq('id', id)
+        .single()
       if (error) throw error
       data.questions.sort((a, b) => a.order - b.order)
       this.survey = data
     },
 
     async getSurveys() {
-      const { data, error } = await supabase.from('surveys').select('*, survey_status(*)').order('created_at', { ascending: false })
+      const companyStore = useCompanyStore()
+      if (companyStore.company === null) throw new Error('Company not found')
+
+      const { data, error } = await supabase
+        .from('surveys')
+        .select('*, survey_status(*)')
+        .order('created_at', { ascending: false })
+        .eq('company_id', companyStore.company.id)
       if (error) throw error
       this.surveys = data
     },
 
     async getRecentSurveys() {
-      const { data, error } = await supabase.from('surveys').select('*, survey_status(*)').order('created_at', { ascending: false }).limit(3)
+      const companyStore = useCompanyStore()
+      if (companyStore.company === null) throw new Error('Company not found')
+
+      const { data, error } = await supabase
+        .from('surveys')
+        .select('*, survey_status(*)')
+        .order('created_at', { ascending: false })
+        .limit(3)
+        .eq('company_id', companyStore.company.id)
       if (error) throw error
       this.surveys = data
     },
 
     async getSurveysCount() {
-      const { count, error } = await supabase.from('surveys').select('*, survey_status(*)', { count: 'exact', head: true })
+      const companyStore = useCompanyStore()
+      if (companyStore.company === null) throw new Error('Company not found')
+
+      const { count, error } = await supabase
+        .from('surveys')
+        .select('*, survey_status(*)', { count: 'exact', head: true })
+        .eq('company_id', companyStore.company.id)
       if (error) throw error
       this.createdSurveysCount = count
     },
 
     async getPublishedSurveysCount() {
-      const { count, error } = await supabase.from('surveys').select('*, survey_status(*)', { count: 'exact', head: true }).eq('has_published', true)
+      const companyStore = useCompanyStore()
+      if (companyStore.company === null) throw new Error('Company not found')
+
+      const { count, error } = await supabase
+        .from('surveys').select('*, survey_status(*)', { count: 'exact', head: true })
+        .eq('has_published', true)
+        .eq('company_id', companyStore.company.id)
       if (error) throw error
-      console.log(count)
       this.pulishedSurveysCount = count
     },
 
     async getUnpublishedSurveysCount() {
-      const { count, error } = await supabase.from('surveys').select('*, survey_status(*)', { count: 'exact', head: true }).eq('has_published', false)
+      const companyStore = useCompanyStore()
+      if (companyStore.company === null) throw new Error('Company not found')
+
+      const { count, error } = await supabase
+        .from('surveys')
+        .select('*, survey_status(*)', { count: 'exact', head: true })
+        .eq('has_published', false)
+        .eq('company_id', companyStore.company.id)
       if (error) throw error
       this.unpublishedSurveysCount = count
     },
 
     async createSurvey(survey: Insert<'surveys'>) {
-      const { data, error } = await supabase.from('surveys').insert(survey).select('*').single()
+      const { data, error } = await supabase
+        .from('surveys')
+        .insert(survey)
+        .select('*')
+        .single()
       if (error) throw error
 
       this.survey = data
