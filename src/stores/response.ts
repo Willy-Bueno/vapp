@@ -5,7 +5,7 @@ import { useCompanyStore } from '@/stores/company'
 import { Tables, Insert } from '@/types'
 
 type Response = Tables<'responses'> | null & {
-  respondents: Tables<'respondents'>
+  people: Tables<'people'>
   surveys: Tables<'surveys'> & {
     questions: Tables<'questions'> & {
       question_types: Tables<'question_types'>
@@ -31,7 +31,7 @@ export const useResponseStore = defineStore('response_store', {
 
       const { data, error } = await supabase
         .from('responses')
-        .select('*, respondents(*), surveys!inner(*, questions(*, question_types(*), options(*), answers(*, answer_options(*))))')
+        .select('*, people(*), surveys!inner(*, questions(*, question_types(*), options(*), answers(*, answer_options(*))))')
         .eq('status', 'completed')
         .eq('surveys.company_id', companyStore.company.id)
         .order('created_at', { ascending: false })
@@ -45,7 +45,7 @@ export const useResponseStore = defineStore('response_store', {
 
       const { data, error } = await supabase
         .from('responses')
-        .select('*, respondents(*), surveys!inner(*, questions(*, question_types(*), options(*), answers(*, answer_options(*))))')
+        .select('*, people(*), surveys!inner(*, questions(*, question_types(*), options(*), answers(*, answer_options(*))))')
         .eq('status', 'completed')
         .eq('surveys.company_id', companyStore.company.id)
         .order('created_at', { ascending: false })
@@ -56,7 +56,7 @@ export const useResponseStore = defineStore('response_store', {
 
     async getPendingResponsesBySurveyId(id: string) {
       const { data, error } = await supabase
-        .from('responses').select('*, respondents(*), surveys(*, questions(*, question_types(*), options(*), answers(*, answer_options(*))))')
+        .from('responses').select('*, people(*), surveys(*, questions(*, question_types(*), options(*), answers(*, answer_options(*))))')
         .eq('status', 'pending')
         .eq('survey_id', id)
         .order('created_at', { ascending: false })
@@ -67,7 +67,7 @@ export const useResponseStore = defineStore('response_store', {
     async getResponsesBySurveyId(id: string) {
       const { data, error } = await supabase
         .from('responses')
-        .select('*, respondents(*), surveys(*, questions(*, question_types(*), options(*), answers(*, answer_options(*))))')
+        .select('*, people(*), surveys(*, questions(*, question_types(*), options(*), answers(*, answer_options(*))))')
         .eq('status', 'completed')
         .eq('survey_id', id)
       if (error) throw error
@@ -80,7 +80,7 @@ export const useResponseStore = defineStore('response_store', {
 
       const { count, error } = await supabase
         .from('responses')
-        .select('*, respondents(*), surveys!inner(*, questions(*, question_types(*), options(*), answers(*, answer_options(*))))', { count: 'exact', head: true })
+        .select('*, people(*), surveys!inner(*, questions(*, question_types(*), options(*), answers(*, answer_options(*))))', { count: 'exact', head: true })
         .eq('surveys.company_id', companyStore.company.id)
         .eq('status', 'completed')
       if (error) throw error

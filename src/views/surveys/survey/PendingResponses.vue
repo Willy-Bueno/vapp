@@ -14,7 +14,7 @@ import Link2Icon from "@/components/icons/Link2Icon.vue"
 import { Tables } from '@/types'
 
 type Response = Tables<'responses'> & {
-  respondents: Tables<'respondents'>
+  people: Tables<'people'>
   surveys: Tables<'surveys'> & {
     questions: Tables<'questions'>[] & {
       question_types: Tables<'question_types'>
@@ -51,7 +51,7 @@ onMounted(async () => {
       <CardContent class="grid grid-cols-4 p-6 hover:cursor-pointer">
         <div class="space-y-2 col-span-3">
           <div class="flex justify-between">
-            <h1 class="text-lg font-bold">{{ `${response.respondents.first_name} ${response.respondents.last_name} - ${response.surveys.title}` }}</h1>
+            <h1 class="text-lg font-bold">{{ `${response.people.first_name} ${response.people.last_name} - ${response.surveys.title}` }}</h1>
           </div>
             <p class="text-sm text-muted-foreground">
               Compartilhe o link com o participante para que ele possa responder o questionário.

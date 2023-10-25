@@ -34,7 +34,7 @@
         Respostas Pendentes
       </TabsTrigger>
       <TabsTrigger value="reports">
-        Relatórios
+        Relatório
       </TabsTrigger>
     </TabsList>
     <TabsContent value="details" class="space-y-4">

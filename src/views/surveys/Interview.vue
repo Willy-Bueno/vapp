@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { toast } from 'vue-sonner'
-
 import { useSurveyStore } from '@/stores/survey'
 
 import {
@@ -25,14 +23,6 @@ type Surveys = Tables<'surveys'>[] & { survey_status: Tables<'survey_status'> } 
 const surveyStore = useSurveyStore()
 
 const surveys = computed(() => surveyStore.surveys?.filter((survey: any) => survey.survey_status.slug === 'published') as Surveys)
-
-function copyLink (surveyId: string) {
-  const link = `${window.location.origin}/survey/${surveyId}`
-
-  navigator.clipboard.writeText(link)
-
-  toast.success('Link copiado com sucesso!')
-}
 </script>
 
 <template>
@@ -68,7 +58,7 @@ function copyLink (surveyId: string) {
           </SheetHeader>
           <div class="grid space-y-4 mt-4">
             <Card>
-              <CardContent class="flex flex-1 p-6 hover:cursor-pointer" @click="() => $router.push({ name: 'register-respondent', params: { id: survey.id }, query: { interview: 'on-site' } })">
+              <CardContent class="flex flex-1 p-6 hover:cursor-pointer" @click="() => $router.push({ name: 'register-people', params: { id: survey.id }, query: { interview: 'on-site' } })">
                 <div class="space-y-8">
                   <div>
                     <h1 class="text-lg font-bold">Entrevista presencial.</h1>
@@ -78,21 +68,11 @@ function copyLink (surveyId: string) {
               </CardContent>
             </Card>
             <Card>
-              <CardContent class="flex flex-1 p-6 hover:cursor-pointer" @click="() => $router.push({ name: 'register-respondent', params: { id: survey.id }, query: { interview: 'remote-pre' } })">
+              <CardContent class="flex flex-1 p-6 hover:cursor-pointer" @click="() => $router.push({ name: 'register-pople', params: { id: survey.id }, query: { interview: 'remote-pre' } })">
                 <div class="space-y-8">
                   <div>
                     <h1 class="text-lg font-bold">Entrevista remota com participante já cadastrado.</h1>
                     <p class="text-sm text-muted-foreground">O entrevistador cadastra o participante e compartilha o link para que ele responda a pesquisa.</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent class="flex flex-1 p-6 hover:cursor-pointer" @click="copyLink(survey.id)">
-                <div class="space-y-8">
-                  <div>
-                    <h1 class="text-lg font-bold">Entrevista totalmente remota.<span class="text-sm text-muted-foreground">(Clique para copiar o link)</span></h1>
-                    <p class="text-sm text-muted-foreground">O entrevistador compartilha o link e o participante cadastra suas informações e responde a pesquisa.</p>
                   </div>
                 </div>
               </CardContent>

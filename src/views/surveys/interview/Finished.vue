@@ -10,7 +10,7 @@
   function newRespondent() {
     const id = router.currentRoute.value.query.id as string
 
-    router.push({ name: 'register-respondent', params: { id }, query: { interview: 'on-site' } })
+    router.push({ name: 'register-people', params: { id }, query: { interview: 'on-site' } })
   }
 
   function backToInterviewSurveysList() {

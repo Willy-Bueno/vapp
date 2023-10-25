@@ -27,7 +27,7 @@ type Question = Tables<'questions'> & {
 }
 
 type Response = Tables<'responses'> & {
-  respondents: Tables<'respondents'>
+  people: Tables<'people'>
   surveys: Tables<'surveys'> & {
     questions: Question[]
   }

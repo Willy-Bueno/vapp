@@ -13,6 +13,13 @@ const navigationLinks = computed(() => {
       path: '/surveys',
       current: path.startsWith('/surveys'),
     },
+
+    {
+      name: 'Pessoas',
+      path: '/people',
+      current: path.startsWith('/people'),
+    },
+
     {
       name: 'Configurações',
       path: '/settings',

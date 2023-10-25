@@ -28,6 +28,8 @@ export const useCompanyStore = defineStore('company_store', {
       const { data: company_data, error } = await supabase.from('companies').select('*, users(*)').eq('id', data.company_id).single()
       if (error) throw error
       this.company = company_data
+
+      return company_data
     },
 
     async createCompany(company: Insert<'companies'>) {

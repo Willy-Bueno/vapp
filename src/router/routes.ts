@@ -8,7 +8,7 @@ import SignUp from '@/views/authentication/SignUp.vue'
 import RegisterCompany from '@/views/welcome/register/Company.vue'
 import Invite from '@/views/welcome/invite/Invite.vue'
 
-import RegisterRespondent from '@/views/surveys/interview/RegisterRespondent.vue'
+import RegisterPeople from '@/views/surveys/interview/RegisterPeople.vue'
 import RegisterResponse from '@/views/surveys/interview/RegisterResponse.vue'
 import ShareLink from '@/views/surveys/interview/ShareLink.vue'
 import Congrats from '@/views/surveys/interview/Congrats.vue'
@@ -16,6 +16,8 @@ import Finished from '@/views/surveys/interview/Finished.vue'
 import Survey from '@/views/surveys/survey/Survey.vue'
 import Settings from '@/views/settings/Settings.vue'
 import Surveys from '@/views/surveys/Surveys.vue'
+
+import People from '@/views/people/People.vue'
 
 
 export const routes = [
@@ -84,6 +86,13 @@ export const routes = [
           },
         ]
       },
+
+      {
+        path: 'people',
+        name: 'people',
+        component: People,
+      },
+
       {
         path: 'settings',
         name: 'settings',
@@ -99,8 +108,8 @@ export const routes = [
     children: [
       {
         path: ':id',
-        name: 'register-respondent',
-        component: RegisterRespondent,
+        name: 'register-people',
+        component: RegisterPeople,
       },
 
       {

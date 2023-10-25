@@ -25,7 +25,7 @@ const currentRoute = computed(() => router.currentRoute.value.name)
 <template>
   <div class="flex-1 space-y-4 p-4 md:p-8 pt-6">
     <div class="flex items-center justify-between space-y-2">
-      <h2 class="text-3xl font-bold tracking-tight">Surveys</h2>
+      <h2 class="text-3xl font-bold tracking-tight">Questionários</h2>
     </div>
   </div>
   <Tabs default-value="overview" class="space-y-4 px-4 md:px-8">
@@ -34,11 +34,11 @@ const currentRoute = computed(() => router.currentRoute.value.name)
         <TabsTrigger value="overview">
           Visão Geral
         </TabsTrigger>
-        <TabsTrigger value="interview">
-          Entrevistar
-        </TabsTrigger>
         <TabsTrigger value="surveys">
           Questionários
+        </TabsTrigger>
+        <TabsTrigger value="interview">
+          Entrevistar
         </TabsTrigger>
         <TabsTrigger value="responses">
           Respostas
@@ -55,20 +55,20 @@ const currentRoute = computed(() => router.currentRoute.value.name)
         </div>
       </div>
     </TabsContent>
-    <TabsContent value="interview" class="space-y-4">
-      <div class="space-y-6 p-1">
-        <div class="flex flex-col space-y-8">
-          <div class="flex-1 space-y-6">
-            <Interview />
-          </div>
-        </div>
-      </div>
-    </TabsContent>
     <TabsContent value="surveys" class="space-y-4">
       <div class="space-y-6 p-1">
         <div class="flex flex-col space-y-8">
           <div class="flex-1 space-y-6">
             <SurveysList />
+          </div>
+        </div>
+      </div>
+    </TabsContent>
+    <TabsContent value="interview" class="space-y-4">
+      <div class="space-y-6 p-1">
+        <div class="flex flex-col space-y-8">
+          <div class="flex-1 space-y-6">
+            <Interview />
           </div>
         </div>
       </div>

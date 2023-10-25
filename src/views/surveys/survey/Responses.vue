@@ -15,7 +15,7 @@ import ResponseSheet from '@/components/survey/ResponseSheet.vue'
 import { Tables } from '@/types'
 
 type Response = Tables<'responses'> & {
-  respondents: Tables<'respondents'>
+  people: Tables<'people'>
   surveys: Tables<'surveys'> & {
     questions: Tables<'questions'>[] & {
       question_types: Tables<'question_types'>

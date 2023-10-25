@@ -22,7 +22,7 @@ import Home from '@/components/icons/HomeIcon.vue'
 import { Tables } from '@/types'
 
 type Response = Tables<'responses'> & {
-  respondents: Tables<'respondents'>
+  people: Tables<'people'>
   surveys: Tables<'surveys'> & {
     questions: Tables<'questions'>[] & {
       question_types: Tables<'question_types'>
@@ -46,7 +46,7 @@ const props = defineProps<{
         <CardContent class="grid grid-cols-2 p-6 hover:cursor-pointer">
           <div class="space-y-2 col-span-2">
             <div class="flex justify-between">
-              <h1 class="text-lg font-bold">{{ `${props.response.respondents.first_name} ${props.response.respondents.last_name} - ${props.response.surveys.title}` }}</h1>
+              <h1 class="text-lg font-bold">{{ `${props.response.people.first_name} ${props.response.people.last_name} - ${props.response.surveys.title}` }}</h1>
             </div>
               <p class="text-sm text-muted-foreground">Clique para visualizar as respostas dessa entrevista.</p>
           </div>
@@ -70,7 +70,7 @@ const props = defineProps<{
               Franet Telecom
             </div>
             <h1 class="font-bold text-3xl">{{ props.response.surveys.title }}</h1>
-            <p class="text-sm text-muted-foreground">- {{ `${props.response.respondents.first_name} ${props.response.respondents.last_name}` }}</p>
+            <p class="text-sm text-muted-foreground">- {{ `${props.response.people.first_name} ${props.response.people.last_name}` }}</p>
           </div>
           <span class="flex justify-start items-center text-muted-foreground px-4">criado com <VappLogo class="w-4 h-4 ml-2 mr-1" /> Vendas App</span>
         </div>
@@ -113,7 +113,7 @@ const props = defineProps<{
           <div v-else-if="question.question_types.slug === 'multiple'">
             <div class="flex flex-col gap-2">
               <div v-for="option in question.options" :key="option.id" class="flex items-center justify-start space-x-2">
-                <Checkbox :id="option.id" :value="option.id" :checked="!question.answers[0].answer_options?.find((answer) => answer.question_option_id === option.id)" />
+                <Checkbox :id="option.id" :value="option.id" :checked="option.id === question.answers.find((answer) => answer.response_id === props.response.id)?.answer_options?.find((answerOption) => answerOption.question_option_id)?.question_option_id" />
                 <Label :for="option.id" class="cursor-pointer">{{ option.option_text }}</Label>
               </div>
             </div>
@@ -122,7 +122,7 @@ const props = defineProps<{
             <RadioGroup
               v-for="option in question.options"
               :key="option.id"
-              :default-value="question.answers[0].answer_options?.find((answer) => answer.question_option_id === option.id)?.question_option_id"
+              :default-value="question.answers.find((answer) => answer.response_id === props.response.id)?.answer_options?.find((answerOption) => answerOption.question_option_id)?.question_option_id"
               class="flex items-center justify-start space-y-2"
             >
                 <RadioGroupItem :id="option.id" :value="option.id" />

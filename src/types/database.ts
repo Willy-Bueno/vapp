@@ -169,6 +169,55 @@ export interface Database {
           }
         ]
       }
+      people: {
+        Row: {
+          address: string
+          company_id: string
+          complement: string | null
+          created_at: string
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          lat: number
+          lng: number
+          phone: string
+        }
+        Insert: {
+          address: string
+          company_id: string
+          complement?: string | null
+          created_at?: string
+          email: string
+          first_name: string
+          id?: string
+          last_name: string
+          lat: number
+          lng: number
+          phone: string
+        }
+        Update: {
+          address?: string
+          company_id?: string
+          complement?: string | null
+          created_at?: string
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          lat?: number
+          lng?: number
+          phone?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "people_company_id_fkey"
+            columns: ["company_id"]
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       question_types: {
         Row: {
           created_at: string
@@ -245,66 +294,33 @@ export interface Database {
           }
         ]
       }
-      respondents: {
-        Row: {
-          address: string
-          complement: string | null
-          created_at: string
-          first_name: string
-          id: string
-          last_name: string
-          lat: number
-          lng: number
-        }
-        Insert: {
-          address: string
-          complement?: string | null
-          created_at?: string
-          first_name: string
-          id?: string
-          last_name: string
-          lat: number
-          lng: number
-        }
-        Update: {
-          address?: string
-          complement?: string | null
-          created_at?: string
-          first_name?: string
-          id?: string
-          last_name?: string
-          lat?: number
-          lng?: number
-        }
-        Relationships: []
-      }
       responses: {
         Row: {
           created_at: string
           id: string
-          respondent_id: string
+          people_id: string
           status: string | null
           survey_id: string
         }
         Insert: {
           created_at?: string
           id?: string
-          respondent_id: string
+          people_id: string
           status?: string | null
           survey_id: string
         }
         Update: {
           created_at?: string
           id?: string
-          respondent_id?: string
+          people_id?: string
           status?: string | null
           survey_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "responses_respondent_id_fkey"
-            columns: ["respondent_id"]
-            referencedRelation: "respondents"
+            foreignKeyName: "responses_people_id_fkey"
+            columns: ["people_id"]
+            referencedRelation: "people"
             referencedColumns: ["id"]
           },
           {

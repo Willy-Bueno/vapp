@@ -17,7 +17,7 @@ import { Tables } from '@/types'
 
 type Surveys = Tables<'surveys'>[] & { survey_status: Tables<'survey_status'> }[] | null
 type Response = Tables<'responses'> & {
-  respondents: Tables<'respondents'>
+  people: Tables<'people'>
   surveys: Tables<'surveys'> & {
     questions: Tables<'questions'>[] & {
       question_types: Tables<'question_types'>
@@ -64,7 +64,7 @@ onMounted(async () => {
     <CardReportWidget :is-loading="isLoading" title="Questionários Criados" :value="createdSurveysCount" />
     <CardReportWidget :is-loading="isLoading" title="Questionários Não Publicados" :value="unpublishedSurveysCount" />
     <CardReportWidget :is-loading="isLoading" title="Questionários Publicados" :value="publishedSurveysCount" />
-    <CardReportWidget :is-loading="isLoading" title="Questões Respondidas" :value="respnosesCount" />
+    <CardReportWidget :is-loading="isLoading" title="Questionários Respondidos" :value="respnosesCount" />
   </div>
   <div class="flex flex-col gap-4 py-8 space-y-6">
     <div class="flex flex-col">

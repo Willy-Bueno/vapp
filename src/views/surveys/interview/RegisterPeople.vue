@@ -10,8 +10,9 @@ import { toast } from 'vue-sonner'
 
 import { useRouter } from 'vue-router'
 
-import { useRespondentStore } from '@/stores/respondent'
 import { useResponseStore } from '@/stores/response'
+import { useCompanyStore } from '@/stores/company'
+import { usePeopleStore } from '@/stores/people'
 
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
@@ -35,8 +36,9 @@ const emit = defineEmits(['change-active-component'])
 
 const router = useRouter()
 
-const respondentStore = useRespondentStore()
 const responseStore = useResponseStore()
+const companyStore = useCompanyStore()
+const peopleStore = usePeopleStore()
 
 const isSubmitting = ref(false)
 const marker = ref({ lat: 0, lng: 0 })
@@ -51,15 +53,20 @@ watch(marker, (value) => {
 const respondentForm = ref({
   first_name: '',
   last_name: '',
+  email: '',
+  phone: '',
   address: '',
   lat: 0,
   lng: 0,
   complement: '',
+  company_id: '',
 })
 
 const participantSchema = z.object({
   first_name: z.string().min(3, { message: 'O nome deve ter no mínimo 3 caracteres.' }),
   last_name: z.string().min(3, { message: 'O sobrenome deve ter no mínimo 3 caracteres.' }),
+  email: z.string().email({ message: 'O email deve ser válido.' }),
+  phone: z.string().min(11, { message: 'O telefone deve ter no mínimo 11 caracteres.' }),
   address: z.string().min(3, { message: 'O endereço deve ter no mínimo 3 caracteres.' }),
   lat: z.number().min(-90).max(90).refine((value) => value !== 0, { message: 'É necessário selecionar a localização do participante no mapa.' }),
   lng: z.number().min(-180).max(180).refine((value) => value !== 0, { message: 'É necessário selecionar a localização do participante no mapa.' }),
@@ -87,10 +94,10 @@ function handleSubmit() {
     return
   }
 
-  const promise = () => new Promise(resolve => resolve(respondentStore.createRespondent(respondentForm.value)
-    .then(({ id: respondent_id }) => {
+  const promise = () => new Promise(resolve => resolve(peopleStore.createPeople(respondentForm.value)
+    .then(({ id: peopleId }) => {
     const survey_id = router.currentRoute.value.params.id as string
-    responseStore.createResponse({ respondent_id, survey_id }).then((data) => {
+    responseStore.createResponse({ people_id: peopleId, survey_id }).then((data) => {
       if (router.currentRoute.value.query.interview === 'on-site') {
         router.push({ name: 'register-response', params: { id: survey_id, responseId: data.id }, query: { interview: 'on-site' } })
         return
@@ -137,7 +144,9 @@ function getLocation() {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
+  const company = await companyStore.getCompany()
+  respondentForm.value.company_id = company?.id as string
   getLocation()
 })
 </script>
@@ -168,6 +177,32 @@ onMounted(() => {
         </span>
         <div v-if="errors?.last_name" class="text-sm text-destructive">
           <span v-for="error in errors.last_name._errors" :key="error">{{ error }}</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <Label for="email" :class="cn('text-sm', errors?.email && 'text-destructive')">
+          Email
+        </Label>
+        <Input name="email" v-model="respondentForm.email" placeholder="Email" class="max-w-md" />
+        <span class="text-muted-foreground text-sm">
+          Informe o email do participante.
+        </span>
+        <div v-if="errors?.email" class="text-sm text-destructive">
+          <span v-for="error in errors.email._errors" :key="error">{{ error }}</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <Label for="phone" :class="cn('text-sm', errors?.phone && 'text-destructive')">
+          Telefone
+        </Label>
+        <Input name="phone" v-model="respondentForm.phone" placeholder="Telefone" class="max-w-md" />
+        <span class="text-muted-foreground text-sm">
+          Informe o telefone do participante.
+        </span>
+        <div v-if="errors?.phone" class="text-sm text-destructive">
+          <span v-for="error in errors.phone._errors" :key="error">{{ error }}</span>
         </div>
       </div>
 
