@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-
+import { ref, watch, onBeforeMount } from 'vue'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
+
+import { useRouter } from 'vue-router'
 
 import {
   Tabs,
@@ -28,11 +29,27 @@ type TabsProps = {
 
 const props = defineProps<TabsProps>()
 
+const router = useRouter()
+
 const tab = ref(props.defaultTab)
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 
 const smAndLarger = breakpoints.greaterOrEqual('sm')
+
+watch(tab, (value) => {
+  const query = router.currentRoute.value.query
+  if (query.tab && query.tab !== value) {
+    router.replace({ name: 'surveys' })
+  }
+})
+
+onBeforeMount(() => {
+  const queryTab = router.currentRoute.value.query.tab
+  if (queryTab) {
+    tab.value = queryTab as string
+  }
+})
 </script>
 
 <template>

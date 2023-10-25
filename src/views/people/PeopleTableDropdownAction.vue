@@ -8,6 +8,13 @@ import {
 import { Button } from '@/components/ui/button'
 import MoreHorizontal from '@/components/icons/MoreHorizontalIcon.vue'
 
+interface People {
+  id: string
+}
+
+defineProps<{
+  people: People
+}>()
 </script>
 
 <template>
@@ -19,8 +26,7 @@ import MoreHorizontal from '@/components/icons/MoreHorizontalIcon.vue'
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end">
-      <DropdownMenuItem>Ver detalhes</DropdownMenuItem>
-      <DropdownMenuItem>Entrevistar</DropdownMenuItem>
+      <DropdownMenuItem @click="() => $router.push({ name: 'surveys', query: { tab: 'interview', people: people.id } })">Entrevistar</DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
 </template>

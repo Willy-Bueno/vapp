@@ -98,7 +98,9 @@ const columns: ColumnDef<People>[] = [
   {
     id: 'actions',
     enableHiding: false,
-    cell: () => h('div', { class: 'relative' }, h(PeopleDataTableDropdownAction))
+    cell: ({ row }) => h('div', { class: 'relative' }, h(PeopleDataTableDropdownAction, {
+      people: row.original
+    }))
   },
 ]
 

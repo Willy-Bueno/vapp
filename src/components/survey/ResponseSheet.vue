@@ -47,6 +47,16 @@ const props = defineProps<{
           <div class="space-y-2 col-span-2">
             <div class="flex justify-between">
               <h1 class="text-lg font-bold">{{ `${props.response.people.first_name} ${props.response.people.last_name} - ${props.response.surveys.title}` }}</h1>
+              <span class="text-sm text-muted-foreground">{{
+                new Intl.DateTimeFormat('pt-BR', {
+                  day: '2-digit',
+                  month: 'long',
+                  year: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric',
+                  second: 'numeric',
+                }).format(new Date(props.response.created_at))
+               }}</span>
             </div>
               <p class="text-sm text-muted-foreground">Clique para visualizar as respostas dessa entrevista.</p>
           </div>

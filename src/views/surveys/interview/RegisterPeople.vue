@@ -101,11 +101,8 @@ function handleSubmit() {
       if (router.currentRoute.value.query.interview === 'on-site') {
         router.push({ name: 'register-response', params: { id: survey_id, responseId: data.id }, query: { interview: 'on-site' } })
         return
-      } else if (router.currentRoute.value.query.interview === 'remote-pre') {
-        router.push({ name: 'share-link', params: { id: survey_id, responseId: data.id } })
-        return
       } else {
-        router.push({ name: 'register-response', params: { id: survey_id, responseId: data.id } })
+        router.push({ name: 'share-link', params: { id: survey_id, responseId: data.id } })
       }
     })
   })))
