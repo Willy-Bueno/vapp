@@ -5,8 +5,8 @@ import {
   type SelectItemProps,
   SelectItemText,
 } from 'radix-vue'
+import { CheckIcon } from '@radix-icons/vue'
 import { cn } from '@/lib/utils'
-import CheckIcon from '@/components/icons/CheckIcon.vue'
 
 const props = defineProps<SelectItemProps & { class?: string }>()
 </script>

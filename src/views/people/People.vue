@@ -1,17 +1,25 @@
 <script setup lang="ts">
 import { ref, onBeforeMount } from 'vue'
-import { usePeopleStore } from '@/stores/people'
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/components/ui/tabs'
+
+import TabRoutingList from '@/components/widgets/TabRoutingList.vue'
+
+import { SectionTitle } from '@/components/ui/section-title'
+import { TabsContent } from '@/components/ui/tabs'
+
 import PeopleDataTable from '@/views/people/PeopleDataTable.vue'
+
+import { usePeopleStore } from '@/stores/people'
 
 const peopleStore = usePeopleStore()
 const isLoading = ref(true)
 const peoples = ref()
+
+const tabs = ref([
+  {
+    name: 'people',
+    label: 'Pessoas',
+  }
+])
 
 onBeforeMount(async () => {
   const res = await peopleStore.getPeoples()
@@ -27,20 +35,10 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div class="flex-1 space-y-4 p-4 md:p-8 pt-6">
-    <div class="flex items-center justify-between space-y-2">
-      <h2 class="text-3xl font-bold tracking-tight">Pessoas</h2>
-    </div>
-  </div>
-  <Tabs default-value="overview" class="space-y-4 px-4 md:px-8">
-    <div class="w-full flex justify-between items-center">
-      <TabsList>
-        <TabsTrigger value="poples">
-          Pessoas
-        </TabsTrigger>
-      </TabsList>
-    </div>
-    <TabsContent value="overview" class="space-y-4">
+  <SectionTitle>Pessoas</SectionTitle>
+  <TabRoutingList :tabs="tabs" default-tab="people">
+    <template #tabs-content>
+      <TabsContent value="people" class="space-y-4">
       <div class="space-y-6 p-1">
         <div class="flex flex-col space-y-8">
           <div class="flex-1 space-y-6">
@@ -49,5 +47,6 @@ onBeforeMount(async () => {
         </div>
       </div>
     </TabsContent>
-  </Tabs>
+    </template>
+  </TabRoutingList>
 </template>

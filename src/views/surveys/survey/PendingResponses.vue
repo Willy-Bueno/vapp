@@ -33,7 +33,7 @@ const responseStore = useResponseStore()
 const responses = computed(() => responseStore.responses as Response[])
 
 function copyLink(response: Response) {
-  const link = `${window.location.origin}/survey/${response.survey_id}/${response.respondent_id}`
+  const link = `${window.location.origin}/survey/${response.survey_id}/${response.people_id}`
   navigator.clipboard.writeText(link)
 }
 
