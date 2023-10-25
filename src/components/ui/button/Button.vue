@@ -8,7 +8,9 @@ interface Props {
   as?: string
 }
 
-withDefaults(defineProps<Props>(), { as: 'button' })
+withDefaults(defineProps<Props>(), {
+  as: 'button',
+})
 </script>
 
 <template>

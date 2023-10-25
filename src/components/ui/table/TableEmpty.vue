@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import TableRow from '@/components/ui/table/TableRow.vue'
-import TableCell from '@/components/ui/table/TableCell.vue'
+import TableRow from './TableRow.vue'
+import TableCell from './TableCell.vue'
 import { cn } from '@/lib/utils'
 
 interface Props {
