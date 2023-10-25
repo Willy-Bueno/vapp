@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+  DropdownMenuItem
+} from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 import MoreHorizontal from '@/components/icons/MoreHorizontalIcon.vue'
 
-defineProps<{
-  user: { id: string }
-}>()
-
-function copy(id: string) {
-  navigator.clipboard.writeText(id)
-}
 </script>
 
 <template>
@@ -21,13 +19,8 @@ function copy(id: string) {
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end">
-      <DropdownMenuItem
-        disabled
-        class="text-destructive"
-        @click="copy(user.id)"
-      >
-        Sair da equipe
-      </DropdownMenuItem>
+      <DropdownMenuItem>Ver detalhes</DropdownMenuItem>
+      <DropdownMenuItem>Entrevistar</DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
 </template>

@@ -5,8 +5,6 @@ import {
   ColumnFiltersState,
   SortingState,
   VisibilityState,
-} from '@tanstack/vue-table'
-import {
   FlexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -14,8 +12,8 @@ import {
   getSortedRowModel,
   useVueTable,
 } from '@tanstack/vue-table'
-import ArrowUpDown from '@/components/icons/ArrowUpDownIcon.vue'
-import ChevronDown from '@/components/icons/ChevronDownIcon.vue'
+
+import { valueUpdater } from '@/lib/utils'
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -34,7 +32,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { valueUpdater } from '@/lib/utils'
+import PeopleDataTableDropdownAction from '@/views/people/PeopleTableDropdownAction.vue'
+
+import ArrowUpDown from '@/components/icons/ArrowUpDownIcon.vue'
+import ChevronDown from '@/components/icons/ChevronDownIcon.vue'
 
 type People = {
   id: string
@@ -65,6 +66,7 @@ const columns: ColumnDef<People>[] = [
     enableHiding: false,
   },
   {
+    id: 'nome',
     accessorKey: 'name',
     header: 'Nome',
     cell: ({ row }) => {
@@ -73,6 +75,7 @@ const columns: ColumnDef<People>[] = [
     },
   },
   {
+    id: 'email',
     accessorKey: 'email',
     header: ({ column }) => {
       return h(Button, {
@@ -83,10 +86,20 @@ const columns: ColumnDef<People>[] = [
     cell: ({ row }) => h('div', { class: 'lowercase' }, row.getValue('email')),
   },
   {
+    id: 'telefone',
     accessorKey: 'phone',
     header: () => h('div', 'Telefone'),
-    cell: ({ row }) => h('div', row.getValue('phone')),
-  }
+    cell: ({ row }) => {
+      const phone = row.original.phone
+      return h('div', { class: 'capitalize' }, phone)
+    },
+  },
+
+  {
+    id: 'actions',
+    enableHiding: false,
+    cell: () => h('div', { class: 'relative' }, h(PeopleDataTableDropdownAction))
+  },
 ]
 
 const sorting = ref<SortingState>([])
@@ -119,14 +132,14 @@ const table = useVueTable({
     <div class="flex gap-2 items-center py-4">
       <Input
         class="max-w-sm"
-        placeholder="Filter emails..."
+        placeholder="Filtrar por email..."
         :model-value="(table.getColumn('email')?.getFilterValue() as any)"
         @update:model-value=" table.getColumn('email')?.setFilterValue($event)"
       />
       <DropdownMenu>
         <DropdownMenuTrigger as-child>
           <Button variant="outline" class="ml-auto">
-            Columns <ChevronDown class="ml-2 h-4 w-4" />
+            Coluna <ChevronDown class="ml-2 h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">

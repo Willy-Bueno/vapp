@@ -24,7 +24,7 @@ const scrolled = computed(() => y.value > 40)
         <a href="/">
           <VappLogo class="h-8 w-8" name="Vendas App" />
         </a>
-        <MainNav class="hidden md:flex mx-6" />
+        <MainNav class="flex mx-12" />
         <div class="ml-auto flex items-center space-x-4">
           <ThemeSwitcher />
           <UserNav />

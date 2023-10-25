@@ -21,17 +21,9 @@ import {
 } from '@tanstack/vue-table'
 
 import ArrowUpDown from '@/components/icons/ArrowUpDownIcon.vue'
-import ChevronDown from '@/components/icons/ChevronDownIcon.vue'
 
-import DropdownAction from '@/views/settings/TeamMembersDataTableActions.vue'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import {
   Avatar,
@@ -139,19 +131,7 @@ const columns: ColumnDef<User>[] = [
     },
     enableHiding: false,
     cell: ({ row }) => h('div', { class: 'captalize hidden' }, row.original.name),
-  },
-
-  {
-    id: 'actions',
-    enableHiding: false,
-    cell: ({ row }) => {
-      const user = row.original
-
-      return h('div', { class: 'relative' }, h(DropdownAction, {
-        user,
-      }))
-    },
-  },
+  }
 ]
 
 const sorting = ref<SortingState>([])
@@ -192,24 +172,6 @@ onMounted(async () => {
         :model-value="(table.getColumn('email')?.getFilterValue() as string)"
         @update:model-value="table.getColumn('email')?.setFilterValue($event)"
       />
-      <DropdownMenu>
-        <DropdownMenuTrigger as-child>
-          <Button variant="outline" class="ml-auto">
-            Colunas <ChevronDown class="ml-2 h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuCheckboxItem
-            v-for="column in table.getAllColumns().filter((column) => column.getCanHide())"
-            :key="column.id"
-            class="capitalize"
-            :checked="column.getIsVisible()"
-            @update:checked="(value) => column.toggleVisibility(!!value)"
-          >
-            {{ column.id }}
-          </DropdownMenuCheckboxItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
     </div>
     <div class="rounded-md border">
       <Table>
