@@ -76,7 +76,7 @@ function preRemoteInterview (id: string) {
       error: () => 'Não foi possível criar a entrevista.',
     })
   } else {
-    router.push({ name: 'register-pople', params: { id }, query: { interview: 'remote-pre' } })
+    router.push({ name: 'register-people', params: { id }, query: { interview: 'remote-pre' } })
   }
 }
 
