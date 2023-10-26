@@ -236,7 +236,7 @@ onMounted(async () => {
             </AlertDialogHeader>
             <div class="max-w-2xl w-full h-96 rounded-md overflow-hidden">
               <l-map ref="map" v-model:zoom="zoom" v-model:center="(center as any)" :useGlobalLeaflet="false">
-                  <l-tile-layer url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+                  <l-tile-layer url="http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
                       layer-type="base" name="Stadia Maps Basemap"></l-tile-layer>
                   <l-marker v-model:lat-lng.sync="marker" draggable></l-marker>
               </l-map>
