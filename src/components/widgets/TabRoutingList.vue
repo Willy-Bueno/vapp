@@ -20,6 +20,7 @@ import {
 
 type TabsProps = {
   defaultTab: string
+  tabAction?: string
   tabs: Array<{
     name: string
     label: string
@@ -72,7 +73,7 @@ onBeforeMount(() => {
           </SelectGroup>
         </SelectContent>
       </Select>
-      <slot name="actions" ></slot>
+      <slot v-if="!tabAction || tabAction === tab" name="actions" ></slot>
     </div>
     <slot name="tabs-content"></slot>
   </Tabs>

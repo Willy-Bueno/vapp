@@ -8,16 +8,11 @@ import { TabsContent } from '@/components/ui/tabs'
 
 import SurveySheet from '@/components/survey/SurveySheet.vue'
 
-import Overview from '@/views/surveys/Overview.vue'
 import SurveysList from '@/views/surveys/SurveysList.vue'
 import Interview from '@/views/surveys/Interview.vue'
 import Responses from '@/views/surveys/Responses.vue'
 
 const tabs = ref([
-  {
-    name: 'overview',
-    label: 'Visão Geral',
-  },
   {
     name: 'surveys',
     label: 'Questionários',
@@ -35,20 +30,11 @@ const tabs = ref([
 
 <template>
   <SectionTitle>Questionários</SectionTitle>
-  <TabRoutingList :tabs="tabs" default-tab="overview">
+  <TabRoutingList :tabs="tabs" default-tab="surveys">
     <template #actions>
       <SurveySheet />
     </template>
     <template #tabs-content>
-      <TabsContent value="overview" class="space-y-4">
-        <div class="space-y-6 p-1">
-          <div class="flex flex-col space-y-8">
-            <div class="flex-1 space-y-6">
-              <Overview />
-            </div>
-          </div>
-        </div>
-      </TabsContent>
       <TabsContent value="surveys" class="space-y-4">
         <div class="space-y-6 p-1">
           <div class="flex flex-col space-y-8">

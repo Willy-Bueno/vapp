@@ -3,6 +3,7 @@ import { ref } from 'vue'
 
 import TabRoutingList from '@/components/widgets/TabRoutingList.vue'
 import { SectionTitle } from '@/components/ui/section-title'
+import { Button } from '@/components/ui/button'
 
 import {
   TabsContent,
@@ -39,7 +40,12 @@ const tabs = ref([
 </script>
 
 <template>
-  <SectionTitle>Questionário</SectionTitle>
+  <SectionTitle>
+    <Button type="button" variant="outline" class="mr-4 group" @click="$router.go(-1)">
+      voltar
+    </Button>
+    Questionário
+  </SectionTitle>
   <TabRoutingList :tabs="tabs" default-tab="details">
     <template #tabs-content>
       <TabsContent value="details" class="space-y-4">

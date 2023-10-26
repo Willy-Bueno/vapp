@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { cn } from '@/lib/utils'
 
+import Home from '@/components/icons/HomeIcon.vue'
 import FileText from '@/components/icons/FileTextIcon.vue'
 import Person from '@/components/icons/PersonIcon.vue'
 import Settings from '@/components/icons/SettingsIcon.vue'
@@ -12,6 +13,13 @@ const navigationLinks = computed(() => {
   const path = route.path
 
   const links = [
+    {
+      name: 'Dashboard',
+      path: '/',
+      icon: Home,
+      current: path === '/',
+    },
+
     {
       name: 'Questionários',
       path: '/surveys',
@@ -31,8 +39,7 @@ const navigationLinks = computed(() => {
       path: '/settings',
       icon: Settings,
       current: path.startsWith('/settings')
-    },
-
+    }
   ]
 
   return links
