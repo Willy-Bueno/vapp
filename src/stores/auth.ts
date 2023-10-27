@@ -78,7 +78,7 @@ export const useAuthStore = defineStore('auth_store', {
       if (!userData) throw new Error('Esse email não está cadastrado')
 
       const { error } = await supabase.auth.resetPasswordForEmail(input.email, {
-        redirectTo: 'https://nuunesdev.netlify.app/settings'
+        redirectTo: 'https://nuunesdev.netlify.app/settings?tab=recovery-password'
       })
       if (error) throw error
 
