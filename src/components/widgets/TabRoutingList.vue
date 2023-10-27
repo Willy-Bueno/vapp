@@ -41,7 +41,7 @@ const smAndLarger = breakpoints.greaterOrEqual('sm')
 watch(tab, (value) => {
   const query = router.currentRoute.value.query
   if (query.tab && query.tab !== value) {
-    router.replace({ name: 'surveys' })
+    router.replace({ query: { ...query, tab: undefined } })
   }
 })
 
