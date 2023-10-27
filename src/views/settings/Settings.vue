@@ -6,6 +6,7 @@ import TabRoutingList from '@/components/widgets/TabRoutingList.vue'
 import { SectionTitle } from '@/components/ui/section-title'
 import { TabsContent } from '@/components/ui/tabs'
 
+import RecoveryPassword from '@/views/settings/RecoveryPassword.vue'
 import Appearance from '@/views/settings/Appearance.vue'
 import Account from '@/views/settings/Account.vue'
 import Company from '@/views/settings/Company.vue'
@@ -15,6 +16,10 @@ const tabs = ref([
   {
     name: 'account',
     label: 'Conta',
+  },
+  {
+    name: 'recovery-password',
+    label: 'Recuperar senha',
   },
   {
     name: 'company',
@@ -33,13 +38,22 @@ const tabs = ref([
 
 <template>
   <SectionTitle>Configurações</SectionTitle>
-  <TabRoutingList :tabs="tabs" default-tab="account">
+  <TabRoutingList :tabs="tabs" default-tab="account" tab-action="account">
     <template #tabs-content>
       <TabsContent value="account" class="space-y-4">
         <div class="space-y-6 p-1">
           <div class="flex flex-col space-y-8">
             <div class="flex-1 space-y-6">
               <Account />
+            </div>
+          </div>
+        </div>
+      </TabsContent>
+      <TabsContent value="recovery-password" class="space-y-4">
+        <div class="space-y-6 p-1">
+          <div class="flex flex-col space-y-8">
+            <div class="flex-1 space-y-6">
+              <RecoveryPassword/>
             </div>
           </div>
         </div>

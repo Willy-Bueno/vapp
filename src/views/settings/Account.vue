@@ -8,12 +8,12 @@ import { useUserStore } from '@/stores/user'
 
 import { cn } from '@/lib/utils'
 
-import Loader2 from '@/components/icons/Loader.vue'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
+import Loader from '@/components/icons/Loader.vue'
 
 const isSubmitting = ref(false)
 const isLoading = ref(false)
@@ -123,7 +123,7 @@ onMounted(async () => {
     </div>
     <div class="flex justify-start">
       <Button type="submit" :disabled="isSubmitting">
-        <Loader2 v-if="isSubmitting" class="mr-2 h-4 w-4 animate-spin" />
+        <Loader v-if="isSubmitting" class="mr-2 h-4 w-4 animate-spin" />
         Atualizar conta
       </Button>
     </div>

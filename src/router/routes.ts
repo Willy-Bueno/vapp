@@ -4,6 +4,8 @@ import MainLayout from '@/layouts/MainLayout.vue'
 
 import SignIn from '@/views/authentication/SignIn.vue'
 import SignUp from '@/views/authentication/SignUp.vue'
+import EmailConfirmation from '@/views/authentication/EmailConfirmation.vue'
+import ForgotPassword from '@/views/authentication/ForgotPassword.vue'
 
 import RegisterCompany from '@/views/welcome/register/Company.vue'
 import Invite from '@/views/welcome/invite/Invite.vue'
@@ -37,7 +39,17 @@ export const routes = [
         name: 'register',
         path: 'register',
         component: SignUp,
-      }
+      },
+      {
+        name: 'email-confirmation',
+        path: 'email-confirmation',
+        component: EmailConfirmation,
+      },
+      {
+        name: 'forgot-password',
+        path: 'forgot-password',
+        component: ForgotPassword,
+      },
     ],
   },
 

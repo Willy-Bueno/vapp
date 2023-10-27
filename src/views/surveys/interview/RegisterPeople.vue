@@ -43,11 +43,27 @@ const peopleStore = usePeopleStore()
 const isSubmitting = ref(false)
 const marker = ref({ lat: 0, lng: 0 })
 const center = ref({ lat: 0, lng: 0 })
+const latlng = ref()
 const zoom = ref(13)
 
 watch(marker, (value) => {
   respondentForm.value.lat = value.lat
   respondentForm.value.lng = value.lng
+  latlng.value = `${value.lat}, ${value.lng}`
+})
+
+watch(latlng, (value) => {
+  const [lat, lng] = value.split(',').map((v: string) => parseFloat(v.trim()))
+  if (lat && lng) {
+    if (lat !== marker.value.lat || lng !== marker.value.lng) {
+      marker.value = { lat, lng }
+    } else if (lat !== center.value.lat || lng !== center.value.lng) {
+      center.value = { lat, lng }
+    } else if (lat !== respondentForm.value.lat || lng !== respondentForm.value.lng) {
+      respondentForm.value.lat = lat
+      respondentForm.value.lng = lng
+    }
+  }
 })
 
 const respondentForm = ref({
@@ -216,36 +232,39 @@ onMounted(async () => {
         </div>
       </div>
 
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col space-y-2">
         <Label :class="cn('text-sm', (errors?.lat || errors?.lng) && 'text-destructive')">
           Localização
         </Label>
-        <AlertDialog>
-          <AlertDialogTrigger class="w-fit">
-            <Button variant="outline" type="button">
-              <SwingPinIcon class="w-4 h-4 mr-2" />
-              Selecionar localização
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent class="max-w-2xl w-full">
-            <AlertDialogHeader>
-              <AlertDialogTitle>Selecione sua localização</AlertDialogTitle>
-              <AlertDialogDescription>
-                Arraste o icone até a localização da residência do participante.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <div class="max-w-2xl w-full h-96 rounded-md overflow-hidden">
-              <l-map ref="map" v-model:zoom="zoom" v-model:center="(center as any)" :useGlobalLeaflet="false">
-                  <l-tile-layer url="http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-                      layer-type="base" name="Stadia Maps Basemap"></l-tile-layer>
-                  <l-marker v-model:lat-lng.sync="marker" draggable></l-marker>
-              </l-map>
-            </div>
-            <AlertDialogFooter>
-              <AlertDialogAction>Continue</AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        <div class="flex space-x-2">
+          <AlertDialog>
+            <AlertDialogTrigger class="w-fit">
+              <Button variant="outline" type="button">
+                <SwingPinIcon class="w-4 h-4 mr-2" />
+                Selecionar localização
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent class="max-w-2xl w-full">
+              <AlertDialogHeader>
+                <AlertDialogTitle>Selecione sua localização</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Arraste o icone até a localização da residência do participante.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <div class="max-w-2xl w-full h-96 rounded-md overflow-hidden">
+                <l-map ref="map" v-model:zoom="zoom" v-model:center="(center as any)" :useGlobalLeaflet="false">
+                    <l-tile-layer url="http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+                        layer-type="base" name="Stadia Maps Basemap"></l-tile-layer>
+                    <l-marker v-model:lat-lng.sync="marker" draggable></l-marker>
+                </l-map>
+              </div>
+              <AlertDialogFooter>
+                <AlertDialogAction>Continue</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+          <Input v-model="latlng" placeholder="ex: -23.5505199, -46.6333094" class="flex-1" />
+        </div>
         <span class="text-muted-foreground text-sm">
           Clique no botão para selecionar a localização do participante. Essa localização será utilizada para identificar a residência do participante.
         </span>

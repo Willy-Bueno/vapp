@@ -2,7 +2,7 @@
   <div class="main">
     <div class="content"/>
   </div>
-  <div class="w-screen h-screen flex justify-center items-center">
+  <div class="w-screen h-screen flex justify-center items-center px-2 lg:px-4">
     <RouterView />
   </div>
 </template>
