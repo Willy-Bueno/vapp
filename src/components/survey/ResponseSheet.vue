@@ -106,7 +106,7 @@ const props = defineProps<{
         </div>
       </div>
     </div>
-      <div class="flex flex-1 flex-col items-center px-4 md:px-8 py-36 space-y-16 lg:mt-32 lg:ml-96 pointer-events-none">
+      <div class="flex flex-1 flex-col items-center px-4 md:px-8 py-36 space-y-16 lg:mt-32 lg:ml-96">
         <div v-for="question in props.response.surveys.questions" class="max-w-2xl w-full flex flex-col gap-2">
           <h1 class="font-medium">
             {{ `${question.order} - ${question.question_text}` }}
@@ -122,7 +122,7 @@ const props = defineProps<{
 
           <div v-else-if="question.question_types.slug === 'multiple'">
             <div class="flex flex-col gap-2">
-              <div v-for="option in question.options" :key="option.id" class="flex items-center justify-start space-x-2">
+              <div v-for="option in question.options" :key="option.id" class="flex items-center justify-start space-x-2 pointer-events-none">
                 <Checkbox :id="option.id" :value="option.id" :checked="option.id === question.answers.find((answer) => answer.response_id === props.response.id)?.answer_options?.find((answerOption) => answerOption.question_option_id)?.question_option_id" />
                 <Label :for="option.id" class="cursor-pointer">{{ option.option_text }}</Label>
               </div>
@@ -133,7 +133,7 @@ const props = defineProps<{
               v-for="option in question.options"
               :key="option.id"
               :default-value="question.answers.find((answer) => answer.response_id === props.response.id)?.answer_options?.find((answerOption) => answerOption.question_option_id)?.question_option_id"
-              class="flex items-center justify-start space-y-2"
+              class="flex items-center justify-start space-y-2 pointer-events-none"
             >
                 <RadioGroupItem :id="option.id" :value="option.id" />
                 <Label :for="option.id" class="cursor-pointer">{{ option.option_text }}</Label>
