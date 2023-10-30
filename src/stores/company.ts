@@ -4,7 +4,8 @@ import supabase from '@/lib/supabase'
 import { Tables, Insert, Update } from '@/types'
 
 type Company = Tables<'companies'> | null & {
-  users: Tables<'users'>[]
+  users: Tables<'users'>[],
+  people: Tables<'people'>[],
 }
 
 export const useCompanyStore = defineStore('company_store', {
@@ -25,7 +26,7 @@ export const useCompanyStore = defineStore('company_store', {
         return
       }
 
-      const { data: company_data, error } = await supabase.from('companies').select('*, users(*)').eq('id', data.company_id).single()
+      const { data: company_data, error } = await supabase.from('companies').select('*, users(*), people(*)').eq('id', data.company_id).single()
       if (error) throw error
       this.company = company_data
 

@@ -12,9 +12,7 @@ interface People {
   id: string
 }
 
-defineProps<{
-  people: People
-}>()
+defineProps<People>()
 </script>
 
 <template>
@@ -26,7 +24,14 @@ defineProps<{
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end">
-      <DropdownMenuItem @click="() => $router.push({ name: 'surveys', query: { tab: 'interview', people: people.id } })">Entrevistar</DropdownMenuItem>
+      <DropdownMenuItem>
+        Ver detalhes
+      </DropdownMenuItem>
+      <DropdownMenuItem
+        @click="() => $router.push({ name: 'surveys', query: { tab: 'interview', people: id } })"
+      >
+        Entrevistar
+      </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
 </template>

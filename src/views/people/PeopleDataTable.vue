@@ -1,10 +1,17 @@
 <script setup lang="ts">
-import { h, ref } from 'vue'
-import {
+import { h, ref, computed, ComputedRef, onMounted } from 'vue'
+
+import { valueUpdater } from '@/lib/utils'
+
+import { useCompanyStore } from '@/stores/company'
+
+import type {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
   VisibilityState,
+} from '@tanstack/vue-table'
+import {
   FlexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -13,17 +20,18 @@ import {
   useVueTable,
 } from '@tanstack/vue-table'
 
-import { valueUpdater } from '@/lib/utils'
+import ArrowUpDown from '@/components/icons/ArrowUpDownIcon.vue'
+
+import PeopleTableDropdownAction from '@/views/people/PeopleTableDropdownAction.vue'
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
+import {
+  Avatar,
+  AvatarImage,
+  AvatarFallback,
+} from '@/components/ui/avatar'
 import {
   Table,
   TableBody,
@@ -31,77 +39,114 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  TableEmpty
 } from '@/components/ui/table'
-import PeopleDataTableDropdownAction from '@/views/people/PeopleTableDropdownAction.vue'
 
-import ArrowUpDown from '@/components/icons/ArrowUpDownIcon.vue'
-import ChevronDown from '@/components/icons/ChevronDownIcon.vue'
+import { Tables } from '@/types'
+
+type Company = Tables<'companies'> & {
+  users: Tables<'users'>[]
+  people: Tables<'people'>[]
+}
 
 type People = {
   id: string
-  first_name: string
-  last_name: string
   email: string
-  phone: string
+  name: string
+  avatar: string
 }
 
-const props = defineProps<{
-  data: People[]
-}>()
+const companyStore = useCompanyStore()
+
+const data: ComputedRef<People[]> = computed(() => {
+  const dataCompany = companyStore.company as Company
+  if (!dataCompany) return []
+
+  return dataCompany.people.map((people) => ({
+    id: people.id,
+    email: people.email,
+    name: `${people.first_name} ${people.last_name}`,
+    avatar: '',
+  }))
+})
+
 
 const columns: ColumnDef<People>[] = [
   {
     id: 'select',
-    header: ({ table }) => h(Checkbox, {
-      'checked': table.getIsAllPageRowsSelected(),
-      'onUpdate:checked': value => table.toggleAllPageRowsSelected(!!value),
-      'ariaLabel': 'Selecionar tudo',
-    }),
+    header: ({ table }) => h('div', { class: 'w-12' }, [
+      h(Checkbox, {
+        'checked': table.getIsAllPageRowsSelected(),
+        'onUpdate:checked': value => table.toggleAllPageRowsSelected(!!value),
+        'ariaLabel': 'Selecionar tudo',
+      })
+    ]),
     cell: ({ row }) => h(Checkbox, {
       'checked': row.getIsSelected(),
       'onUpdate:checked': value => row.toggleSelected(!!value),
-      'ariaLabel': 'Selecionar linha',
+      'ariaLabel': 'Selecionar usuário',
     }),
     enableSorting: false,
     enableHiding: false,
   },
+
   {
-    id: 'nome',
-    accessorKey: 'name',
-    header: 'Nome',
+    accessorKey: 'User',
+    header: 'Pessoas',
     cell: ({ row }) => {
-      const name = `${row.original.first_name} ${row.original.last_name}`
-      return h('div', { class: 'capitalize' }, name)
+      const user = row.original
+
+      return h('div', { class: 'flex items-center space-x-4' }, [
+          h(Avatar, { class: 'h-12 w-12' }, () => [
+            h(AvatarImage, { src: user.avatar, alt: user.name }),
+            h(AvatarFallback, () => [
+              user.name.split(' ').map((name) => name[0]).join('').toUpperCase()
+            ])
+          ]),
+          h('div', {
+            class: 'flex flex-col justify-center space-y-1',
+          }, [
+            h('div', { class: 'text-md font-medium' }, user.name),
+            h('div', { class: 'text-sm text-muted-foreground' }, user.email),
+          ])
+      ])
     },
   },
+
   {
-    id: 'email',
     accessorKey: 'email',
     header: ({ column }) => {
       return h(Button, {
+        class: 'hidden',
         variant: 'ghost',
         onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
       }, () => ['Email', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
     },
-    cell: ({ row }) => h('div', { class: 'lowercase' }, row.getValue('email')),
+    enableHiding: false,
+    cell: ({ row }) => h('div', { class: 'captalize hidden' }, row.original.email),
   },
+
   {
-    id: 'telefone',
-    accessorKey: 'phone',
-    header: () => h('div', 'Telefone'),
-    cell: ({ row }) => {
-      const phone = row.original.phone
-      return h('div', { class: 'capitalize' }, phone)
+    accessorKey: 'name',
+    header: ({ column }) => {
+      return h(Button, {
+        class: 'hidden',
+        variant: 'ghost',
+        onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
+      }, () => ['Nome', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
     },
+    enableHiding: false,
+    cell: ({ row }) => h('div', { class: 'captalize hidden' }, row.original.name),
   },
 
   {
     id: 'actions',
     enableHiding: false,
-    cell: ({ row }) => h('div', { class: 'relative' }, h(PeopleDataTableDropdownAction, {
-      people: row.original
-    }))
-  },
+    cell: ({ row }) =>  {
+      const peopleId = row.original.id
+      return h(PeopleTableDropdownAction, { id: peopleId })
+    }
+  }
 ]
 
 const sorting = ref<SortingState>([])
@@ -110,7 +155,7 @@ const columnVisibility = ref<VisibilityState>({})
 const rowSelection = ref({})
 
 const table = useVueTable({
-  data: props.data,
+  data: data.value,
   columns,
   getCoreRowModel: getCoreRowModel(),
   getPaginationRowModel: getPaginationRowModel(),
@@ -125,39 +170,23 @@ const table = useVueTable({
     get columnFilters() { return columnFilters.value },
     get columnVisibility() { return columnVisibility.value },
     get rowSelection() { return rowSelection.value },
-  },
+  }
+})
+
+onMounted(async () => {
+  await companyStore.getCompany()
 })
 </script>
 
 <template>
-  <div class="w-full">
+  <div class="w-full lg:w-2/3">
     <div class="flex gap-2 items-center py-4">
       <Input
         class="max-w-sm"
-        placeholder="Filtrar por email..."
-        :model-value="(table.getColumn('email')?.getFilterValue() as any)"
-        @update:model-value=" table.getColumn('email')?.setFilterValue($event)"
+        placeholder="Filtre por nome..."
+        :model-value="(table.getColumn('name')?.getFilterValue() as string)"
+        @update:model-value="table.getColumn('name')?.setFilterValue($event)"
       />
-      <DropdownMenu>
-        <DropdownMenuTrigger as-child>
-          <Button variant="outline" class="ml-auto">
-            Coluna <ChevronDown class="ml-2 h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuCheckboxItem
-            v-for="column in table.getAllColumns().filter((column) => column.getCanHide())"
-            :key="column.id"
-            class="capitalize"
-            :checked="column.getIsVisible()"
-            @update:checked="(value) => {
-              column.toggleVisibility(!!value)
-            }"
-          >
-            {{ column.id }}
-          </DropdownMenuCheckboxItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
     </div>
     <div class="rounded-md border">
       <Table>
@@ -171,6 +200,7 @@ const table = useVueTable({
         <TableBody>
           <template v-if="table.getRowModel().rows?.length">
             <TableRow
+              class="h-24"
               v-for="row in table.getRowModel().rows"
               :key="row.id"
               :data-state="row.getIsSelected() && 'selected'"
@@ -181,14 +211,18 @@ const table = useVueTable({
             </TableRow>
           </template>
 
-          <TableRow v-else>
-            <TableCell
-              col-span="{columns.length}"
-              class="h-24 text-center"
-            >
-              Não há pessoas cadastradas.
-            </TableCell>
-          </TableRow>
+          <TableEmpty
+            v-else
+            :colspan="columns.length"
+          >
+            <div class="flex flex-col items-center justify-center">
+              <div class="flex flex-col items-center justify-center">
+                <p class="text-sm text-muted-foreground">
+                  Nenhuma pessoa encontrada.
+                </p>
+              </div>
+            </div>
+          </TableEmpty>
         </TableBody>
       </Table>
     </div>
@@ -196,7 +230,7 @@ const table = useVueTable({
     <div class="flex items-center justify-end space-x-2 py-4">
       <div class="flex-1 text-sm text-muted-foreground">
         {{ table.getFilteredSelectedRowModel().rows.length }} de
-        {{ table.getFilteredRowModel().rows.length }} linha(s) selecionada(s)
+        {{ table.getFilteredRowModel().rows.length }} {{ `pessoa${table.getFilteredRowModel().rows.length > 1 ? 's' : ''}` }} selecionada{{ table.getFilteredSelectedRowModel().rows.length > 1 ? 's' : '' }}
       </div>
       <div class="space-x-2">
         <Button
