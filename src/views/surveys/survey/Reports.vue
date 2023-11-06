@@ -21,9 +21,9 @@ import { Tables } from "@/types"
 type Question = Tables<'questions'> & {
   question_types: Tables<'question_types'>
   options: Tables<'options'>[]
-  answers: Tables<'answers'> & {
-    answer_options: Tables<'answer_options'>[] | null
-  }[]
+  answers: Array<Tables<'answers'> & {
+    answer_options: Array<Tables<'answer_options'>> | null
+  }>
 }
 
 type Response = Tables<'responses'> & {
@@ -101,43 +101,47 @@ onMounted(async () => {
 
   const responses = responseStore.responses as Response[]
 
-  responses.forEach(response => {
-    response.surveys.questions.forEach(question => {
-      let statistc: Statistc = {
-        id: question.id,
-        title: question.question_text,
-        type: question.question_types.slug,
-      }
+  if (responses && !!responses.length) {
+    responses[0].surveys.questions.forEach((question) => {
+      // verificar se a questão ja existe in statistcs
+      const statistc = statistcs.value.find((statistc) => statistc.id === question.id)
 
-      if (question.question_types.slug !== 'text') {
-        statistc.options = question.options.map(option => {
-          let total = 0
-
-          response.surveys.questions.forEach(question => {
-            if (question.question_types.slug !== 'text') {
-              question.answers.forEach(answer => {
-                if (answer.answer_options) {
-                  answer.answer_options.forEach(answerOption => {
-                    if (answerOption.question_option_id === option.id) {
-                      total++
-                    }
-                  })
-                }
-              })
-            }
-          })
-
-          return {
-            id: option.id,
-            title: option.option_text,
-            total,
-          }
+      if (!statistc) {
+        // se não existir, criar uma nova
+        statistcs.value.push({
+          id: question.id,
+          title: question.question_text,
+          type: question.question_types.slug,
         })
       }
 
-      statistcs.value.push(statistc)
+      if (question.question_types.slug !== 'text') {
+        // se a questão não for do tipo texto, criar as opções
+        const options = question.options.map((option) => ({
+          id: option.id,
+          title: option.option_text,
+          total: 0,
+        }))
+
+        const statistc = statistcs.value.find((statistc) => statistc.id === question.id)
+
+        if (statistc && !statistc.options) {
+          statistc.options = options
+        }
+
+        question.answers.forEach(answerData => {
+          answerData.answer_options?.forEach(answerOption => {
+            const statistc = statistcs.value.find((statistc) => statistc.id === question.id)
+            const option = statistc?.options?.find((option) => option.id === answerOption.question_option_id)
+
+            if (option) {
+              option.total += 1
+            }
+          })
+        })
+      }
     })
-  })
+  }
 })
 </script>
 

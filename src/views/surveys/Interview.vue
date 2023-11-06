@@ -88,7 +88,7 @@ onBeforeMount(() => {
 <template>
   <div>
     <p class="text-sm text-muted-foreground">
-      Aqui aparece os questionários que estão disponíveis para você no momento.
+      Aqui aparece os questionários que estão <strong>publicados</strong> no momento.
     </p>
     <p class="text-sm text-muted-foreground">
       Selecione um questionário para começar a entrevista.
