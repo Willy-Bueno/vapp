@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue"
 
-import TabRoutingList from '@/components/widgets/TabRoutingList.vue'
+import TabRoutingList from "@/components/widgets/TabRoutingList.vue"
 
-import { SectionTitle } from '@/components/ui/section-title'
-import { TabsContent } from '@/components/ui/tabs'
+import { SectionTitle } from "@/components/ui/section-title"
+import { TabsContent } from "@/components/ui/tabs"
 
-import Overview from '@/views/dashboard/Overview.vue'
+import Overview from "@/views/dashboard/Overview.vue"
 
 const tabs = ref([
   {
-    name: 'overview',
-    label: 'Visão Geral',
-  }
+    name: "overview",
+    label: "Visão Geral",
+  },
 ])
 </script>
 

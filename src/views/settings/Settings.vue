@@ -1,38 +1,38 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue"
 
-import TabRoutingList from '@/components/widgets/TabRoutingList.vue'
+import TabRoutingList from "@/components/widgets/TabRoutingList.vue"
 
-import { SectionTitle } from '@/components/ui/section-title'
-import { TabsContent } from '@/components/ui/tabs'
+import { SectionTitle } from "@/components/ui/section-title"
+import { TabsContent } from "@/components/ui/tabs"
 
-import RecoveryPassword from '@/views/settings/RecoveryPassword.vue'
-import Appearance from '@/views/settings/Appearance.vue'
-import Account from '@/views/settings/Account.vue'
-import Company from '@/views/settings/Company.vue'
-import Team from '@/views/settings/Team.vue'
+import RecoveryPassword from "@/views/settings/RecoveryPassword.vue"
+import Appearance from "@/views/settings/Appearance.vue"
+import Account from "@/views/settings/Account.vue"
+import Company from "@/views/settings/Company.vue"
+import Team from "@/views/settings/Team.vue"
 
 const tabs = ref([
   {
-    name: 'account',
-    label: 'Conta',
+    name: "account",
+    label: "Conta",
   },
   {
-    name: 'recovery-password',
-    label: 'Recuperar senha',
+    name: "recovery-password",
+    label: "Recuperar senha",
   },
   {
-    name: 'company',
-    label: 'Empresa',
+    name: "company",
+    label: "Empresa",
   },
   {
-    name: 'appearance',
-    label: 'Aparência',
+    name: "appearance",
+    label: "Aparência",
   },
   {
-    name: 'team',
-    label: 'Equipe',
-  }
+    name: "team",
+    label: "Equipe",
+  },
 ])
 </script>
 
@@ -53,7 +53,7 @@ const tabs = ref([
         <div class="space-y-6 p-1">
           <div class="flex flex-col space-y-8">
             <div class="flex-1 space-y-6">
-              <RecoveryPassword/>
+              <RecoveryPassword />
             </div>
           </div>
         </div>

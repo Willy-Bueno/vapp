@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { Toaster } from 'vue-sonner'
-import supabase from '@/lib/supabase'
-import { useAuthStore } from '@/stores/auth'
+import { Toaster } from "vue-sonner"
+import supabase from "@/lib/supabase"
+import { useAuthStore } from "@/stores/auth"
 
 supabase.auth.onAuthStateChange((event, session) => {
   const authStore = useAuthStore()
 
   switch (event) {
-    case 'SIGNED_IN':
+    case "SIGNED_IN":
       authStore.session = session
       break
-    case 'SIGNED_OUT':
+    case "SIGNED_OUT":
       authStore.session = null
       break
   }

@@ -1,14 +1,7 @@
 <script setup lang="ts">
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent
-} from '@/components/ui/card'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 
-import CompanyForm from '@/views/welcome/register/CompanyForm.vue'
-
+import CompanyForm from "@/views/welcome/register/CompanyForm.vue"
 </script>
 <template>
   <Card>

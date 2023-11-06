@@ -1,49 +1,45 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue"
 
-import TabRoutingList from '@/components/widgets/TabRoutingList.vue'
-import { SectionTitle } from '@/components/ui/section-title'
-import { Button } from '@/components/ui/button'
+import TabRoutingList from "@/components/widgets/TabRoutingList.vue"
+import { SectionTitle } from "@/components/ui/section-title"
+import { Button } from "@/components/ui/button"
 
-import {
-  TabsContent,
-} from '@/components/ui/tabs'
+import { TabsContent } from "@/components/ui/tabs"
 
-import Details from '@/views/surveys/survey/Details.vue'
-import Questions from '@/views/surveys/survey/Questions.vue'
-import Responses from '@/views/surveys/survey/Responses.vue'
-import PendingResponses from '@/views/surveys/survey/PendingResponses.vue'
-import Reports from '@/views/surveys/survey/Reports.vue'
+import Details from "@/views/surveys/survey/Details.vue"
+import Questions from "@/views/surveys/survey/Questions.vue"
+import Responses from "@/views/surveys/survey/Responses.vue"
+import PendingResponses from "@/views/surveys/survey/PendingResponses.vue"
+import Reports from "@/views/surveys/survey/Reports.vue"
 
 const tabs = ref([
   {
-    name: 'details',
-    label: 'Detalhes',
+    name: "details",
+    label: "Detalhes",
   },
   {
-    name: 'questions',
-    label: 'Questões',
+    name: "questions",
+    label: "Questões",
   },
   {
-    name: 'responses',
-    label: 'Respostas',
+    name: "responses",
+    label: "Respostas",
   },
   {
-    name: 'pending-responses',
-    label: 'Respostas Pendentes',
+    name: "pending-responses",
+    label: "Respostas Pendentes",
   },
   {
-    name: 'reports',
-    label: 'Relatório',
-  }
+    name: "reports",
+    label: "Relatório",
+  },
 ])
 </script>
 
 <template>
   <SectionTitle>
-    <Button type="button" variant="outline" class="mr-4 group" @click="$router.go(-1)">
-      voltar
-    </Button>
+    <Button type="button" variant="outline" class="mr-4 group" @click="$router.go(-1)"> voltar </Button>
     Questionário
   </SectionTitle>
   <TabRoutingList :tabs="tabs" default-tab="details">
@@ -96,4 +92,3 @@ const tabs = ref([
     </template>
   </TabRoutingList>
 </template>
-

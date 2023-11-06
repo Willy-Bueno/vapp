@@ -1,52 +1,28 @@
 <script setup lang="ts">
-import { h, ref, computed, ComputedRef, onMounted } from 'vue'
+import { h, ref, computed, ComputedRef, onMounted } from "vue"
 
-import { valueUpdater } from '@/lib/utils'
+import { valueUpdater } from "@/lib/utils"
 
-import { useCompanyStore } from '@/stores/company'
+import { useCompanyStore } from "@/stores/company"
 
-import type {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-} from '@tanstack/vue-table'
-import {
-  FlexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useVueTable,
-} from '@tanstack/vue-table'
+import type { ColumnDef, ColumnFiltersState, SortingState, VisibilityState } from "@tanstack/vue-table"
+import { FlexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useVueTable } from "@tanstack/vue-table"
 
-import ArrowUpDown from '@/components/icons/ArrowUpDownIcon.vue'
+import ArrowUpDown from "@/components/icons/ArrowUpDownIcon.vue"
 
-import PeopleTableDropdownAction from '@/views/people/PeopleTableDropdownAction.vue'
+import PeopleTableDropdownAction from "@/views/people/PeopleTableDropdownAction.vue"
 
-import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
-import { Input } from '@/components/ui/input'
-import {
-  Avatar,
-  AvatarImage,
-  AvatarFallback,
-} from '@/components/ui/avatar'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-  TableEmpty
-} from '@/components/ui/table'
+import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Input } from "@/components/ui/input"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableEmpty } from "@/components/ui/table"
 
-import { Tables } from '@/types'
+import { Tables } from "@/types"
 
-type Company = Tables<'companies'> & {
-  users: Tables<'users'>[]
-  people: Tables<'people'>[]
+type Company = Tables<"companies"> & {
+  users: Tables<"users">[]
+  people: Tables<"people">[]
 }
 
 type People = {
@@ -66,87 +42,101 @@ const data: ComputedRef<People[]> = computed(() => {
     id: people.id,
     email: people.email,
     name: `${people.first_name} ${people.last_name}`,
-    avatar: '',
+    avatar: "",
   }))
 })
 
-
 const columns: ColumnDef<People>[] = [
   {
-    id: 'select',
-    header: ({ table }) => h('div', { class: 'w-12' }, [
+    id: "select",
+    header: ({ table }) =>
+      h("div", { class: "w-12" }, [
+        h(Checkbox, {
+          checked: table.getIsAllPageRowsSelected(),
+          "onUpdate:checked": (value) => table.toggleAllPageRowsSelected(!!value),
+          ariaLabel: "Selecionar tudo",
+        }),
+      ]),
+    cell: ({ row }) =>
       h(Checkbox, {
-        'checked': table.getIsAllPageRowsSelected(),
-        'onUpdate:checked': value => table.toggleAllPageRowsSelected(!!value),
-        'ariaLabel': 'Selecionar tudo',
-      })
-    ]),
-    cell: ({ row }) => h(Checkbox, {
-      'checked': row.getIsSelected(),
-      'onUpdate:checked': value => row.toggleSelected(!!value),
-      'ariaLabel': 'Selecionar usuário',
-    }),
+        checked: row.getIsSelected(),
+        "onUpdate:checked": (value) => row.toggleSelected(!!value),
+        ariaLabel: "Selecionar usuário",
+      }),
     enableSorting: false,
     enableHiding: false,
   },
 
   {
-    accessorKey: 'User',
-    header: 'Pessoas',
+    accessorKey: "User",
+    header: "Pessoas",
     cell: ({ row }) => {
       const user = row.original
 
-      return h('div', { class: 'flex items-center space-x-4' }, [
-          h(Avatar, { class: 'h-12 w-12' }, () => [
-            h(AvatarImage, { src: user.avatar, alt: user.name }),
-            h(AvatarFallback, () => [
-              user.name.split(' ').map((name) => name[0]).join('').toUpperCase()
-            ])
+      return h("div", { class: "flex items-center space-x-4" }, [
+        h(Avatar, { class: "h-12 w-12" }, () => [
+          h(AvatarImage, { src: user.avatar, alt: user.name }),
+          h(AvatarFallback, () => [
+            user.name
+              .split(" ")
+              .map((name) => name[0])
+              .join("")
+              .toUpperCase(),
           ]),
-          h('div', {
-            class: 'flex flex-col justify-center space-y-1',
-          }, [
-            h('div', { class: 'text-md font-medium' }, user.name),
-            h('div', { class: 'text-sm text-muted-foreground' }, user.email),
-          ])
+        ]),
+        h(
+          "div",
+          {
+            class: "flex flex-col justify-center space-y-1",
+          },
+          [h("div", { class: "text-md font-medium" }, user.name), h("div", { class: "text-sm text-muted-foreground" }, user.email)]
+        ),
       ])
     },
   },
 
   {
-    accessorKey: 'email',
+    accessorKey: "email",
     header: ({ column }) => {
-      return h(Button, {
-        class: 'hidden',
-        variant: 'ghost',
-        onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
-      }, () => ['Email', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
+      return h(
+        Button,
+        {
+          class: "hidden",
+          variant: "ghost",
+          onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+        },
+        () => ["Email", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]
+      )
     },
     enableHiding: false,
-    cell: ({ row }) => h('div', { class: 'captalize hidden' }, row.original.email),
+    cell: ({ row }) => h("div", { class: "captalize hidden" }, row.original.email),
   },
 
   {
-    accessorKey: 'name',
+    accessorKey: "name",
     header: ({ column }) => {
-      return h(Button, {
-        class: 'hidden',
-        variant: 'ghost',
-        onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
-      }, () => ['Nome', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
+      return h(
+        Button,
+        {
+          class: "hidden",
+          variant: "ghost",
+          onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+        },
+        () => ["Nome", h(ArrowUpDown, { class: "ml-2 h-4 w-4" })]
+      )
     },
     enableHiding: false,
-    cell: ({ row }) => h('div', { class: 'captalize hidden' }, row.original.name),
+    cell: ({ row }) => h("div", { class: "captalize hidden" }, row.original.name),
   },
 
   {
-    id: 'actions',
+    id: "actions",
     enableHiding: false,
-    cell: ({ row }) =>  {
+    cell: ({ row }) => {
       const peopleId = row.original.id
       return h(PeopleTableDropdownAction, { id: peopleId })
-    }
-  }
+    },
+  },
 ]
 
 const sorting = ref<SortingState>([])
@@ -161,16 +151,24 @@ const table = useVueTable({
   getPaginationRowModel: getPaginationRowModel(),
   getSortedRowModel: getSortedRowModel(),
   getFilteredRowModel: getFilteredRowModel(),
-  onSortingChange: updaterOrValue => valueUpdater(updaterOrValue, sorting),
-  onColumnFiltersChange: updaterOrValue => valueUpdater(updaterOrValue, columnFilters),
-  onColumnVisibilityChange: updaterOrValue => valueUpdater(updaterOrValue, columnVisibility),
-  onRowSelectionChange: updaterOrValue => valueUpdater(updaterOrValue, rowSelection),
+  onSortingChange: (updaterOrValue) => valueUpdater(updaterOrValue, sorting),
+  onColumnFiltersChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnFilters),
+  onColumnVisibilityChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnVisibility),
+  onRowSelectionChange: (updaterOrValue) => valueUpdater(updaterOrValue, rowSelection),
   state: {
-    get sorting() { return sorting.value },
-    get columnFilters() { return columnFilters.value },
-    get columnVisibility() { return columnVisibility.value },
-    get rowSelection() { return rowSelection.value },
-  }
+    get sorting() {
+      return sorting.value
+    },
+    get columnFilters() {
+      return columnFilters.value
+    },
+    get columnVisibility() {
+      return columnVisibility.value
+    },
+    get rowSelection() {
+      return rowSelection.value
+    },
+  },
 })
 
 onMounted(async () => {
@@ -184,7 +182,7 @@ onMounted(async () => {
       <Input
         class="max-w-sm"
         placeholder="Filtre por nome..."
-        :model-value="(table.getColumn('name')?.getFilterValue() as string)"
+        :model-value="table.getColumn('name')?.getFilterValue() as string"
         @update:model-value="table.getColumn('name')?.setFilterValue($event)"
       />
     </div>
@@ -199,27 +197,17 @@ onMounted(async () => {
         </TableHeader>
         <TableBody>
           <template v-if="table.getRowModel().rows?.length">
-            <TableRow
-              class="h-24"
-              v-for="row in table.getRowModel().rows"
-              :key="row.id"
-              :data-state="row.getIsSelected() && 'selected'"
-            >
+            <TableRow class="h-24" v-for="row in table.getRowModel().rows" :key="row.id" :data-state="row.getIsSelected() && 'selected'">
               <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
                 <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
               </TableCell>
             </TableRow>
           </template>
 
-          <TableEmpty
-            v-else
-            :colspan="columns.length"
-          >
+          <TableEmpty v-else :colspan="columns.length">
             <div class="flex flex-col items-center justify-center">
               <div class="flex flex-col items-center justify-center">
-                <p class="text-sm text-muted-foreground">
-                  Nenhuma pessoa encontrada.
-                </p>
+                <p class="text-sm text-muted-foreground">Nenhuma pessoa encontrada.</p>
               </div>
             </div>
           </TableEmpty>
@@ -229,26 +217,13 @@ onMounted(async () => {
 
     <div class="flex items-center justify-end space-x-2 py-4">
       <div class="flex-1 text-sm text-muted-foreground">
-        {{ table.getFilteredSelectedRowModel().rows.length }} de
-        {{ table.getFilteredRowModel().rows.length }} {{ `pessoa${table.getFilteredRowModel().rows.length > 1 ? 's' : ''}` }} selecionada{{ table.getFilteredSelectedRowModel().rows.length > 1 ? 's' : '' }}
+        {{ table.getFilteredSelectedRowModel().rows.length }} de {{ table.getFilteredRowModel().rows.length }} {{ `pessoa${table.getFilteredRowModel().rows.length > 1 ? "s" : ""}` }} selecionada{{
+          table.getFilteredSelectedRowModel().rows.length > 1 ? "s" : ""
+        }}
       </div>
       <div class="space-x-2">
-        <Button
-          variant="outline"
-          size="sm"
-          :disabled="!table.getCanPreviousPage()"
-          @click="table.previousPage()"
-        >
-          Anterior
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          :disabled="!table.getCanNextPage()"
-          @click="table.nextPage()"
-        >
-          Próximo
-        </Button>
+        <Button variant="outline" size="sm" :disabled="!table.getCanPreviousPage()" @click="table.previousPage()"> Anterior </Button>
+        <Button variant="outline" size="sm" :disabled="!table.getCanNextPage()" @click="table.nextPage()"> Próximo </Button>
       </div>
     </div>
   </div>

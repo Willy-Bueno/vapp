@@ -1,7 +1,7 @@
-import { Insert } from '@/types'
+import { Insert } from "@/types"
 
-type Answer = Insert<'answers'> & {
-  answer_options?: Insert<'answer_options'>[]
+type Answer = Insert<"answers"> & {
+  answer_options?: Insert<"answer_options">[]
 }
 
 type Response = {
@@ -27,7 +27,7 @@ export class AnswerData {
 
   result: Answer[]
 
-  constructor (data: Response, response_id: string) {
+  constructor(data: Response, response_id: string) {
     this.data = []
 
     Object.keys(data).forEach((key) => {
@@ -56,30 +56,33 @@ export class AnswerData {
       }
     })
 
-    this.result = this.data.reduce((acc, item) => {
-      const index = acc.findIndex((accItem) => accItem.question_id === item.question_id)
-      if (index === -1) {
-        acc.push({
-          question_id: item.question_id,
-          response_id: item.response_id,
-          answer_options: item.answer_option_id ? [{ question_option_id: item.answer_option_id }] : [],
-          answer: item.answer,
-        })
-      } else {
-        if (item.answer_option_id) {
-          acc[index].answer_options.push({ question_option_id: item.answer_option_id })
+    this.result = this.data.reduce(
+      (acc, item) => {
+        const index = acc.findIndex((accItem) => accItem.question_id === item.question_id)
+        if (index === -1) {
+          acc.push({
+            question_id: item.question_id,
+            response_id: item.response_id,
+            answer_options: item.answer_option_id ? [{ question_option_id: item.answer_option_id }] : [],
+            answer: item.answer,
+          })
         } else {
-          acc[index].answer = item.answer
+          if (item.answer_option_id) {
+            acc[index].answer_options.push({ question_option_id: item.answer_option_id })
+          } else {
+            acc[index].answer = item.answer
+          }
         }
-      }
-      return acc
-    }, [] as Array<{
-      question_id: string
-      response_id: string
-      answer_options: Array<{
-        question_option_id: string
+        return acc
+      },
+      [] as Array<{
+        question_id: string
+        response_id: string
+        answer_options: Array<{
+          question_option_id: string
+        }>
+        answer?: string
       }>
-      answer?: string
-    }>) as Answer[]
+    ) as Answer[]
   }
 }

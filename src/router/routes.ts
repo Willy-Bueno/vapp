@@ -1,80 +1,79 @@
-import SurveyLayout from '@/layouts/SurveyLayout.vue'
-import StartLayout from '@/layouts/StartLayout.vue'
-import MainLayout from '@/layouts/MainLayout.vue'
+import SurveyLayout from "@/layouts/SurveyLayout.vue"
+import StartLayout from "@/layouts/StartLayout.vue"
+import MainLayout from "@/layouts/MainLayout.vue"
 
-import SignIn from '@/views/authentication/SignIn.vue'
-import SignUp from '@/views/authentication/SignUp.vue'
-import EmailConfirmation from '@/views/authentication/EmailConfirmation.vue'
-import ForgotPassword from '@/views/authentication/ForgotPassword.vue'
+import SignIn from "@/views/authentication/SignIn.vue"
+import SignUp from "@/views/authentication/SignUp.vue"
+import EmailConfirmation from "@/views/authentication/EmailConfirmation.vue"
+import ForgotPassword from "@/views/authentication/ForgotPassword.vue"
 
-import RegisterCompany from '@/views/welcome/register/Company.vue'
-import Invite from '@/views/welcome/invite/Invite.vue'
+import RegisterCompany from "@/views/welcome/register/Company.vue"
+import Invite from "@/views/welcome/invite/Invite.vue"
 
-import Dashboard from '@/views/dashboard/Dashboard.vue'
+import Dashboard from "@/views/dashboard/Dashboard.vue"
 
-import RegisterPeople from '@/views/surveys/interview/RegisterPeople.vue'
-import RegisterResponse from '@/views/surveys/interview/RegisterResponse.vue'
-import ShareLink from '@/views/surveys/interview/ShareLink.vue'
-import Congrats from '@/views/surveys/interview/Congrats.vue'
-import Finished from '@/views/surveys/interview/Finished.vue'
-import Survey from '@/views/surveys/survey/Survey.vue'
-import Surveys from '@/views/surveys/Surveys.vue'
+import RegisterPeople from "@/views/surveys/interview/RegisterPeople.vue"
+import RegisterResponse from "@/views/surveys/interview/RegisterResponse.vue"
+import ShareLink from "@/views/surveys/interview/ShareLink.vue"
+import Congrats from "@/views/surveys/interview/Congrats.vue"
+import Finished from "@/views/surveys/interview/Finished.vue"
+import Survey from "@/views/surveys/survey/Survey.vue"
+import Surveys from "@/views/surveys/Surveys.vue"
 
-import People from '@/views/people/People.vue'
+import People from "@/views/people/People.vue"
 
-import Settings from '@/views/settings/Settings.vue'
-
+import Settings from "@/views/settings/Settings.vue"
 
 export const routes = [
   {
-    path: '/auth',
+    path: "/auth",
     component: StartLayout,
     children: [
       {
-        name: 'login',
-        path: 'login',
+        name: "login",
+        path: "login",
         component: SignIn,
       },
       {
-        name: 'register',
-        path: 'register',
+        name: "register",
+        path: "register",
         component: SignUp,
       },
       {
-        name: 'email-confirmation',
-        path: 'email-confirmation',
+        name: "email-confirmation",
+        path: "email-confirmation",
         component: EmailConfirmation,
       },
       {
-        name: 'forgot-password',
-        path: 'forgot-password',
+        name: "forgot-password",
+        path: "forgot-password",
         component: ForgotPassword,
       },
     ],
   },
 
   {
-    path: '/welcome',
-    name: 'welcome',
+    path: "/welcome",
+    name: "welcome",
     component: StartLayout,
     meta: { requiresAuth: true },
     children: [
       {
-        path: '',
-        name: 'add-company',
+        path: "",
+        name: "add-company",
         component: RegisterCompany,
       },
 
       {
-        path: '/invite/:token',
-        name: 'invite',
+        path: "/invite/:token",
+        name: "invite",
         component: Invite,
-      }
+      },
     ],
   },
 
   {
-    path: '/',
+    path: "/",
     component: MainLayout,
     meta: {
       requiresAuth: true,
@@ -82,75 +81,75 @@ export const routes = [
     },
     children: [
       {
-        path: '',
-        name: 'dashboard',
+        path: "",
+        name: "dashboard",
         component: Dashboard,
       },
 
       {
-        path: 'surveys',
+        path: "surveys",
         children: [
           {
-            path: '',
-            name: 'surveys',
+            path: "",
+            name: "surveys",
             component: Surveys,
           },
           {
-            path: ':id',
-            name: 'survey',
+            path: ":id",
+            name: "survey",
             component: Survey,
           },
-        ]
+        ],
       },
 
       {
-        path: 'people',
-        name: 'people',
+        path: "people",
+        name: "people",
         component: People,
       },
 
       {
-        path: 'settings',
-        name: 'settings',
+        path: "settings",
+        name: "settings",
         component: Settings,
-      }
+      },
     ],
   },
 
   {
-    path: '/survey',
-    name: 'interview',
+    path: "/survey",
+    name: "interview",
     component: SurveyLayout,
     children: [
       {
-        path: ':id',
-        name: 'register-people',
+        path: ":id",
+        name: "register-people",
         component: RegisterPeople,
       },
 
       {
-        path: ':id/:responseId',
-        name: 'register-response',
+        path: ":id/:responseId",
+        name: "register-response",
         component: RegisterResponse,
       },
 
       {
-        path: ':id/finished',
-        name: 'finished',
+        path: ":id/finished",
+        name: "finished",
         component: Finished,
       },
 
       {
-        path: ':id/:responseId/share-link',
-        name: 'share-link',
+        path: ":id/:responseId/share-link",
+        name: "share-link",
         component: ShareLink,
       },
 
       {
-        path: 'congrats',
-        name: 'congrats',
+        path: "congrats",
+        name: "congrats",
         component: Congrats,
-      }
+      },
     ],
-  }
+  },
 ]

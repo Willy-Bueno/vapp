@@ -1,30 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue"
 
-import TabRoutingList from '@/components/widgets/TabRoutingList.vue'
+import TabRoutingList from "@/components/widgets/TabRoutingList.vue"
 
-import { SectionTitle } from '@/components/ui/section-title'
-import { TabsContent } from '@/components/ui/tabs'
+import { SectionTitle } from "@/components/ui/section-title"
+import { TabsContent } from "@/components/ui/tabs"
 
-import SurveySheet from '@/components/survey/SurveySheet.vue'
+import SurveySheet from "@/components/survey/SurveySheet.vue"
 
-import SurveysList from '@/views/surveys/SurveysList.vue'
-import Interview from '@/views/surveys/Interview.vue'
-import Responses from '@/views/surveys/Responses.vue'
+import SurveysList from "@/views/surveys/SurveysList.vue"
+import Interview from "@/views/surveys/Interview.vue"
+import Responses from "@/views/surveys/Responses.vue"
 
 const tabs = ref([
   {
-    name: 'surveys',
-    label: 'Questionários',
+    name: "surveys",
+    label: "Questionários",
   },
   {
-    name: 'interview',
-    label: 'Entrevistar',
+    name: "interview",
+    label: "Entrevistar",
   },
   {
-    name: 'responses',
-    label: 'Respostas',
-  }
+    name: "responses",
+    label: "Respostas",
+  },
 ])
 </script>
 

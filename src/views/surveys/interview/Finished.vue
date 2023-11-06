@@ -1,21 +1,21 @@
 <script setup lang="ts">
-  import CheckIcon from '@/components/icons/CheckIcon.vue'
+import CheckIcon from "@/components/icons/CheckIcon.vue"
 
-  import { useRouter } from 'vue-router'
+import { useRouter } from "vue-router"
 
-  import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button"
 
-  const router = useRouter()
+const router = useRouter()
 
-  function newRespondent() {
-    const id = router.currentRoute.value.query.id as string
+function newRespondent() {
+  const id = router.currentRoute.value.query.id as string
 
-    router.push({ name: 'register-people', params: { id }, query: { interview: 'on-site' } })
-  }
+  router.push({ name: "register-people", params: { id }, query: { interview: "on-site" } })
+}
 
-  function backToInterviewSurveysList() {
-    router.push({ name: 'surveys' })
-  }
+function backToInterviewSurveysList() {
+  router.push({ name: "surveys" })
+}
 </script>
 
 <template>
@@ -25,9 +25,7 @@
     </div>
     <div class="flex flex-col justify-center items-center max-w-md">
       <h1 class="text-2xl font-bold text-center">Entrevista finalizada!</h1>
-      <span class="text-muted-foreground text-sm text-center">
-        Escolha a baixo se deseja cadastrar um novo participante ou voltar para a lista de pesquisas.
-      </span>
+      <span class="text-muted-foreground text-sm text-center"> Escolha a baixo se deseja cadastrar um novo participante ou voltar para a lista de pesquisas. </span>
     </div>
     <div class="flex flex-1 flex-start">
       <Button type="button" variant="outline" class="flex items-center mr-2" @click="newRespondent">

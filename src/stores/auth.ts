@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia'
-import supabase from '@/lib/supabase'
-import { Session } from '@supabase/supabase-js'
+import { defineStore } from "pinia"
+import supabase from "@/lib/supabase"
+import { Session } from "@supabase/supabase-js"
 
 interface SignUpCredentials {
   first_name: string
@@ -22,14 +22,14 @@ interface UpdatePasswordCredentials {
   password: string
 }
 
-export const useAuthStore = defineStore('auth_store', {
+export const useAuthStore = defineStore("auth_store", {
   state: () => ({
     session: null as Session | null,
   }),
 
   getters: {
     isAuthenticated: (state) => !!state.session,
-    isUser: (state) => !!state.session && state.session.user
+    isUser: (state) => !!state.session && state.session.user,
   },
 
   actions: {
@@ -40,17 +40,17 @@ export const useAuthStore = defineStore('auth_store', {
     },
 
     async signUpWithCredentials(input: SignUpCredentials) {
-      const { data: userData } = await supabase.from('users').select('*').eq('email', input.email.toLocaleLowerCase()).single()
-      if (userData) throw new Error('Esse email já está em uso')
+      const { data: userData } = await supabase.from("users").select("*").eq("email", input.email.toLocaleLowerCase()).single()
+      if (userData) throw new Error("Esse email já está em uso")
 
       const { data, error } = await supabase.auth.signUp({
         email: input.email,
         password: input.password,
         options: {
           data: {
-            full_name: `${input.first_name} ${input.last_name}`
-          }
-        }
+            full_name: `${input.first_name} ${input.last_name}`,
+          },
+        },
       })
       if (error) throw error
       console.log(data)
@@ -65,8 +65,8 @@ export const useAuthStore = defineStore('auth_store', {
 
       if (error) {
         switch (error.message) {
-          case 'Invalid login credentials':
-            throw new Error('Email ou senha incorretos')
+          case "Invalid login credentials":
+            throw new Error("Email ou senha incorretos")
           default:
             throw error
         }
@@ -74,11 +74,11 @@ export const useAuthStore = defineStore('auth_store', {
     },
 
     async forgotPassword(input: MagicLinkCredentials) {
-      const { data: userData } = await supabase.from('users').select('*').eq('email', input.email.toLocaleLowerCase()).single()
-      if (!userData) throw new Error('Esse email não está cadastrado')
+      const { data: userData } = await supabase.from("users").select("*").eq("email", input.email.toLocaleLowerCase()).single()
+      if (!userData) throw new Error("Esse email não está cadastrado")
 
       const { error } = await supabase.auth.resetPasswordForEmail(input.email, {
-        redirectTo: 'https://nuunesdev.netlify.app/settings?tab=recovery-password'
+        redirectTo: "https://nuunesdev.netlify.app/settings?tab=recovery-password",
       })
       if (error) throw error
 
@@ -87,7 +87,7 @@ export const useAuthStore = defineStore('auth_store', {
 
     async updatePassword(input: UpdatePasswordCredentials) {
       const { data, error } = await supabase.auth.updateUser({
-        password: input.password
+        password: input.password,
       })
       if (error) throw error
 
@@ -96,10 +96,10 @@ export const useAuthStore = defineStore('auth_store', {
 
     async loginWithGoogle() {
       const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
+        provider: "google",
         options: {
           redirectTo: import.meta.env.VITE_SUPABASE_REDIRECT_URL,
-        }
+        },
       })
       if (error) throw error
     },
@@ -107,6 +107,6 @@ export const useAuthStore = defineStore('auth_store', {
     async logout() {
       const { error } = await supabase.auth.signOut()
       if (error) throw error
-    }
-  }
+    },
+  },
 })

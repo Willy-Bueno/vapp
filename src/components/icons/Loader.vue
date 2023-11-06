@@ -1,15 +1,22 @@
 <script setup lang="ts">
-  import { cn } from '@/lib/utils'
+import { cn } from "@/lib/utils"
 
-  interface Props {
-    class?: string
-  }
+interface Props {
+  class?: string
+}
 
-  defineProps<Props>()
+defineProps<Props>()
 </script>
 
 <template>
   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" :class="cn($props.class)">
-    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/>
+    <path
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"
+    />
   </svg>
 </template>

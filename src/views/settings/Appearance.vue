@@ -1,70 +1,60 @@
 <script setup lang="ts">
-  import { ref, watch, onMounted } from 'vue'
-  import { useDark } from '@vueuse/core'
-  import * as z from 'zod'
+import { ref, watch, onMounted } from "vue"
+import { useDark } from "@vueuse/core"
+import * as z from "zod"
 
-  import { cn } from '@/lib/utils'
+import { cn } from "@/lib/utils"
 
-  import Loader from '@/components/icons/Loader.vue'
+import Loader from "@/components/icons/Loader.vue"
 
-  import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-  import { Label } from '@/components/ui/label'
-  import { Button } from '@/components/ui/button'
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button"
 
-  const isDark = useDark({ storageKey: 'theme' })
+const isDark = useDark({ storageKey: "theme" })
 
-  watch(isDark, () => {
-    appearenceForm.value.theme = isDark.value ? 'dark' : 'light'
-  })
+watch(isDark, () => {
+  appearenceForm.value.theme = isDark.value ? "dark" : "light"
+})
 
-  const isLoading = ref(false)
-  const appearenceForm = ref({
-    theme: 'light'
-  })
+const isLoading = ref(false)
+const appearenceForm = ref({
+  theme: "light",
+})
 
-  const appearanceFormSchema = z.object({
-    theme: z.enum(['light', 'dark'], {
-      required_error: 'Por favor selecione um tema.',
-    })
-  })
+const appearanceFormSchema = z.object({
+  theme: z.enum(["light", "dark"], {
+    required_error: "Por favor selecione um tema.",
+  }),
+})
 
-  type AppearanceFormValues = z.infer<typeof appearanceFormSchema>
-  const errors = ref<z.ZodFormattedError<AppearanceFormValues> | null>(null)
+type AppearanceFormValues = z.infer<typeof appearanceFormSchema>
+const errors = ref<z.ZodFormattedError<AppearanceFormValues> | null>(null)
 
-  async function handleSubmit() {
-    const result = appearanceFormSchema.safeParse(appearenceForm.value)
-    if (!result.success) {
-      errors.value = result.error.format()
-      console.log(errors.value)
-      return
-    }
-
-    if (appearenceForm.value.theme === 'dark') isDark.value = true
-    else isDark.value = false
+async function handleSubmit() {
+  const result = appearanceFormSchema.safeParse(appearenceForm.value)
+  if (!result.success) {
+    errors.value = result.error.format()
+    console.log(errors.value)
+    return
   }
 
-  onMounted(() => appearenceForm.value.theme = isDark.value ? 'dark' : 'light')
+  if (appearenceForm.value.theme === "dark") isDark.value = true
+  else isDark.value = false
+}
+
+onMounted(() => (appearenceForm.value.theme = isDark.value ? "dark" : "light"))
 </script>
 
 <template>
   <div>
-    <p class="text-sm text-muted-foreground">
-      Customize a aparência do seu dashboard.
-    </p>
+    <p class="text-sm text-muted-foreground">Customize a aparência do seu dashboard.</p>
   </div>
   <form class="space-y-8" @submit.prevent="handleSubmit">
     <div class="grid gap-2">
-      <Label for="theme" :class="cn('text-sm', errors?.theme && 'text-destructive')">
-        Tema
-      </Label>
-      <span class="text-muted-foreground text-xs">
-        Selecione o tema que você deseja usar no dashboard.
-      </span>
-      <RadioGroup
-        v-model="appearenceForm.theme"
-        default-value="light"
-        class="grid max-w-md grid-cols-2 gap-8 pt-2"
-      >
+      <Label for="theme" :class="cn('text-sm', errors?.theme && 'text-destructive')"> Tema </Label>
+      <span class="text-muted-foreground text-xs"> Selecione o tema que você deseja usar no dashboard. </span>
+      <RadioGroup v-model="appearenceForm.theme" default-value="light" class="grid max-w-md grid-cols-2 gap-8 pt-2">
         <div class="grid gap-2">
           <Label class="[&:has([data-state=checked])>div]:border-primary">
             <div>
@@ -86,9 +76,7 @@
                 </div>
               </div>
             </div>
-            <span class="block w-full p-2 text-center font-normal">
-              Claro
-            </span>
+            <span class="block w-full p-2 text-center font-normal"> Claro </span>
           </Label>
         </div>
         <div>
@@ -112,9 +100,7 @@
                 </div>
               </div>
             </div>
-            <span class="block w-full p-2 text-center font-normal">
-              Escuro
-            </span>
+            <span class="block w-full p-2 text-center font-normal"> Escuro </span>
           </Label>
         </div>
 

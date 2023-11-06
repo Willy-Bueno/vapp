@@ -1,34 +1,34 @@
 <script setup lang="ts">
-  import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted } from "vue"
 
-  import { useRouter } from 'vue-router'
+import { useRouter } from "vue-router"
 
-  import { useSurveyStore } from '@/stores/survey'
-  import { useAuthStore } from '@/stores/auth'
+import { useSurveyStore } from "@/stores/survey"
+import { useAuthStore } from "@/stores/auth"
 
-  import { Skeleton } from '@/components/ui/skeleton'
-  import { Button } from '@/components/ui/button'
+import { Skeleton } from "@/components/ui/skeleton"
+import { Button } from "@/components/ui/button"
 
-  import VappLogo from '@/components/icons/VappLogo.vue'
-  import HomeIcon from '@/components/icons/HomeIcon.vue'
+import VappLogo from "@/components/icons/VappLogo.vue"
+import HomeIcon from "@/components/icons/HomeIcon.vue"
 
-  import ThemeSwitcher from '@/components/header/ThemeSwitcher.vue'
+import ThemeSwitcher from "@/components/header/ThemeSwitcher.vue"
 
-  const router = useRouter()
+const router = useRouter()
 
-  const surveyStore = useSurveyStore()
-  const authStore = useAuthStore()
+const surveyStore = useSurveyStore()
+const authStore = useAuthStore()
 
-  const survey = computed(() => surveyStore.survey)
+const survey = computed(() => surveyStore.survey)
 
-  const isLoading = ref(false)
+const isLoading = ref(false)
 
-  onMounted(async () => {
-    isLoading.value = true
-    const surveyId = router.currentRoute.value.params.id as string
-    if (surveyId) await surveyStore.getSurvey(surveyId)
-    isLoading.value = false
-  })
+onMounted(async () => {
+  isLoading.value = true
+  const surveyId = router.currentRoute.value.params.id as string
+  if (surveyId) await surveyStore.getSurvey(surveyId)
+  isLoading.value = false
+})
 </script>
 
 <template>

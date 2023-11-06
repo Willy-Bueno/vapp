@@ -1,20 +1,13 @@
 <script lang="ts" setup>
-import { Label } from 'radix-vue'
-import { useFormField } from './useFormField'
-import { cn } from '@/lib/utils'
+import { Label } from "radix-vue"
+import { useFormField } from "./useFormField"
+import { cn } from "@/lib/utils"
 
 const { error, formItemId } = useFormField()
 </script>
 
 <template>
-  <Label
-    :class="cn(
-      'block text-sm tracking-tight font-medium text-foreground text-left',
-      error && 'text-destructive',
-      $attrs.class ?? '',
-    )"
-    :for="formItemId"
-  >
+  <Label :class="cn('block text-sm tracking-tight font-medium text-foreground text-left', error && 'text-destructive', $attrs.class ?? '')" :for="formItemId">
     <slot />
   </Label>
 </template>

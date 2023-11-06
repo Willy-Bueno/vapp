@@ -1,29 +1,29 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted } from "vue"
 
-import { useRouter } from 'vue-router'
+import { useRouter } from "vue-router"
 
-import { useResponseStore } from '@/stores/response'
+import { useResponseStore } from "@/stores/response"
 
-import {
-  Card,
-  CardContent
-} from '@/components/ui/card'
+import { Card, CardContent } from "@/components/ui/card"
 
-import ResponseSheet from '@/components/survey/ResponseSheet.vue'
+import ResponseSheet from "@/components/survey/ResponseSheet.vue"
 
-import { Tables } from '@/types'
+import { Tables } from "@/types"
 
-type Response = Tables<'responses'> & {
-  people: Tables<'people'>
-  surveys: Tables<'surveys'> & {
-    questions: Tables<'questions'>[] & {
-      question_types: Tables<'question_types'>
-      options: Tables<'options'>[]
-      answers: Array<Tables<'answers'> & {
-        answer_options: Array<Tables<'answer_options'>> | null
-      }>
-    }[]
+type Response = Tables<"responses"> & {
+  people: Tables<"people">
+  surveys: Tables<"surveys"> & {
+    questions: Tables<"questions">[] &
+      {
+        question_types: Tables<"question_types">
+        options: Tables<"options">[]
+        answers: Array<
+          Tables<"answers"> & {
+            answer_options: Array<Tables<"answer_options">> | null
+          }
+        >
+      }[]
   }
 }
 
@@ -45,9 +45,7 @@ onMounted(async () => {
 
 <template>
   <div>
-    <p class="text-sm text-muted-foreground">
-      Aqui você pode visualizar as respostas dos participantes do seu questionário.
-    </p>
+    <p class="text-sm text-muted-foreground">Aqui você pode visualizar as respostas dos participantes do seu questionário.</p>
   </div>
   <div class="space-y-2 mt-8" v-if="responses && !!responses.length">
     <ResponseSheet v-for="response in responses" :key="response.id" :response="response" />

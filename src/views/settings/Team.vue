@@ -1,67 +1,38 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from "vue"
 
-import { useInviteStore } from '@/stores/invite'
+import { useInviteStore } from "@/stores/invite"
 
-import { toast } from 'vue-sonner'
+import { toast } from "vue-sonner"
 
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription
-} from '@/components/ui/dialog'
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardFooter
-} from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList
-} from '@/components/ui/command'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger
-} from '@/components/ui/popover'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/components/ui/tabs'
-import TeamMembers from '@/views/settings/TeamMembers.vue'
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import TeamMembers from "@/views/settings/TeamMembers.vue"
 
-import ChevronDownIcon from '@/components/icons/ChevronDownIcon.vue'
-import Link2Icon from '@/components/icons/Link2Icon.vue'
-import PlusCircledIcon from '@/components/icons/PlusCircledIcon.vue'
-import MinusCircledIcon from '@/components/icons/MinusCircledIcon.vue'
+import ChevronDownIcon from "@/components/icons/ChevronDownIcon.vue"
+import Link2Icon from "@/components/icons/Link2Icon.vue"
+import PlusCircledIcon from "@/components/icons/PlusCircledIcon.vue"
+import MinusCircledIcon from "@/components/icons/MinusCircledIcon.vue"
 
-import Loader from '@/components/icons/Loader.vue'
+import Loader from "@/components/icons/Loader.vue"
 
 const inviteStore = useInviteStore()
 
 const isLoading = ref(false)
-const link = ref('')
+const link = ref("")
 
 function clipboardText(plainText: string) {
   if (navigator.clipboard) {
-    return navigator.clipboard.writeText(plainText)
-      .then(() => {
-        toast.success('Link copiado com sucesso!')
-      })
+    return navigator.clipboard.writeText(plainText).then(() => {
+      toast.success("Link copiado com sucesso!")
+    })
   }
 }
 
@@ -72,9 +43,7 @@ onMounted(async () => {
 </script>
 <template>
   <div>
-    <p class="text-sm text-muted-foreground">
-      Gerencie e convide membros para sua equipe.
-    </p>
+    <p class="text-sm text-muted-foreground">Gerencie e convide membros para sua equipe.</p>
   </div>
   <Card class="w-full">
     <CardHeader class="flex flex-row items-center justify-between">
@@ -89,22 +58,17 @@ onMounted(async () => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Link de convite</DialogTitle>
-            <DialogDescription>
-              Permita que outras pessoas se juntem à sua equipe através do link abaixo.
-            </DialogDescription>
+            <DialogDescription> Permita que outras pessoas se juntem à sua equipe através do link abaixo. </DialogDescription>
           </DialogHeader>
 
           <div class="flex flex-col items-center justify-center">
             <div class="flex flex-row items-center justify-center">
               <Input class="w-full" v-model="link" />
-              <Button size="sm" class="ml-2" @click="clipboardText(link)">
-                Copiar
-              </Button>
+              <Button size="sm" class="ml-2" @click="clipboardText(link)"> Copiar </Button>
             </div>
           </div>
         </DialogContent>
       </Dialog>
-
     </CardHeader>
     <Separator />
     <form>
@@ -132,9 +96,7 @@ onMounted(async () => {
                       <CommandGroup>
                         <CommandItem value="Membro" class="teamaspace-y-1 flex flex-col items-start px-4 py-2">
                           <p>Membro</p>
-                          <p class="text-sm text-muted-foreground">
-                            Pode visualizar relatórios individuais, entrvistar e realizar vendas.
-                          </p>
+                          <p class="text-sm text-muted-foreground">Pode visualizar relatórios individuais, entrvistar e realizar vendas.</p>
                         </CommandItem>
                         <CommandItem value="Admin" class="teamaspace-y-1 flex flex-col items-start px-4 py-2">
                           <p>Admin</p>
@@ -144,9 +106,7 @@ onMounted(async () => {
                         </CommandItem>
                         <CommandItem value="Dono" class="teamaspace-y-1 flex flex-col items-start px-4 py-2">
                           <p>Dono</p>
-                          <p class="text-sm text-muted-foreground">
-                            Tem acesso a todos os recursos do sistema.
-                          </p>
+                          <p class="text-sm text-muted-foreground">Tem acesso a todos os recursos do sistema.</p>
                         </CommandItem>
                       </CommandGroup>
                     </CommandList>
@@ -183,24 +143,22 @@ onMounted(async () => {
   <div>
     <Tabs default-value="members" class="space-y-4">
       <TabsList class="bg-transparent space-x-4">
-        <TabsTrigger class="rounded-none data-[state=active]:shadow-none data-[state=active]:border-b border-b-black dark:border-b-neutral-200" value="members">
-          Membros da Equipe
-        </TabsTrigger>
+        <TabsTrigger class="rounded-none data-[state=active]:shadow-none data-[state=active]:border-b border-b-black dark:border-b-neutral-200" value="members"> Membros da Equipe </TabsTrigger>
         <TabsTrigger class="rounded-none data-[state=active]:shadow-none data-[state=active]:border-b border-b-black dark:border-b-neutral-200" value="pending-invites" disabled>
           Convites Pendentes
         </TabsTrigger>
       </TabsList>
       <TabsContent value="members" class="space-y-4">
-      <div class="hidden space-y-6 p-1 md:block">
-        <div class="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-          <div class="flex-1">
-            <div class="w-full space-y-6">
-              <TeamMembers />
+        <div class="hidden space-y-6 p-1 md:block">
+          <div class="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
+            <div class="flex-1">
+              <div class="w-full space-y-6">
+                <TeamMembers />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </TabsContent>
+      </TabsContent>
     </Tabs>
   </div>
 </template>

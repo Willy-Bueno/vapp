@@ -1,17 +1,14 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed, onMounted } from "vue"
 
-import { useSurveyStore } from '@/stores/survey'
+import { useSurveyStore } from "@/stores/survey"
 
-import { Badge } from '@/components/ui/badge'
-import {
-  Card,
-  CardContent
-} from '@/components/ui/card'
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
 
-import { Tables } from '@/types'
+import { Tables } from "@/types"
 
-type Surveys = Tables<'surveys'>[] & { survey_status: Tables<'survey_status'> }[] | null
+type Surveys = (Tables<"surveys">[] & { survey_status: Tables<"survey_status"> }[]) | null
 
 const surveyStore = useSurveyStore()
 
@@ -23,9 +20,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <p class="text-sm text-muted-foreground">
-    Aqui aparece os seus questionários.
-  </p>
+  <p class="text-sm text-muted-foreground">Aqui aparece os seus questionários.</p>
   <div class="flex flex-col">
     <div v-if="surveys && !!surveys.length" class="space-y-2">
       <Card v-for="survey in surveys" :key="survey.id">
@@ -34,10 +29,10 @@ onMounted(async () => {
             <div class="flex justify-between">
               <h1 class="text-lg font-bold">{{ survey.title }}</h1>
               <Badge :variant="survey.survey_status.slug === 'published' ? 'default' : 'destructive'">
-                {{ survey.survey_status.slug === 'published' ? 'Publicado' : 'Não publicado' }}
+                {{ survey.survey_status.slug === "published" ? "Publicado" : "Não publicado" }}
               </Badge>
             </div>
-              <p class="text-sm text-muted-foreground">{{ survey.description }}</p>
+            <p class="text-sm text-muted-foreground">{{ survey.description }}</p>
           </div>
         </CardContent>
       </Card>

@@ -1,10 +1,4 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[]
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
 
 export interface Database {
   public: {
@@ -40,7 +34,7 @@ export interface Database {
             columns: ["question_option_id"]
             referencedRelation: "options"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       answers: {
@@ -77,7 +71,7 @@ export interface Database {
             columns: ["response_id"]
             referencedRelation: "responses"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       companies: {
@@ -132,7 +126,7 @@ export interface Database {
             columns: ["company_id"]
             referencedRelation: "companies"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       options: {
@@ -166,7 +160,7 @@ export interface Database {
             columns: ["question_id"]
             referencedRelation: "questions"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       people: {
@@ -215,7 +209,7 @@ export interface Database {
             columns: ["company_id"]
             referencedRelation: "companies"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       question_types: {
@@ -291,7 +285,7 @@ export interface Database {
             columns: ["survey_id"]
             referencedRelation: "surveys"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       responses: {
@@ -328,7 +322,7 @@ export interface Database {
             columns: ["survey_id"]
             referencedRelation: "surveys"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       survey_status: {
@@ -398,7 +392,7 @@ export interface Database {
             columns: ["survey_status_id"]
             referencedRelation: "survey_status"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       users: {
@@ -441,7 +435,7 @@ export interface Database {
             columns: ["id"]
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
     }

@@ -1,31 +1,31 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted } from "vue"
 
-import { useSurveyStore } from '@/stores/survey'
-import { useResponseStore } from '@/stores/response'
+import { useSurveyStore } from "@/stores/survey"
+import { useResponseStore } from "@/stores/response"
 
-import CardReportWidget from '@/components/widgets/CardReportWidget.vue'
-import { Badge } from '@/components/ui/badge'
-import {
-  Card,
-  CardContent
-} from '@/components/ui/card'
+import CardReportWidget from "@/components/widgets/CardReportWidget.vue"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
 
-import ResponseSheet from '@/components/survey/ResponseSheet.vue'
+import ResponseSheet from "@/components/survey/ResponseSheet.vue"
 
-import { Tables } from '@/types'
+import { Tables } from "@/types"
 
-type Surveys = Tables<'surveys'>[] & { survey_status: Tables<'survey_status'> }[] | null
-type Response = Tables<'responses'> & {
-  people: Tables<'people'>
-  surveys: Tables<'surveys'> & {
-    questions: Tables<'questions'>[] & {
-      question_types: Tables<'question_types'>
-      options: Tables<'options'>[]
-      answers: Array<Tables<'answers'> & {
-        answer_options: Array<Tables<'answer_options'>> | null
-      }>
-    }[]
+type Surveys = (Tables<"surveys">[] & { survey_status: Tables<"survey_status"> }[]) | null
+type Response = Tables<"responses"> & {
+  people: Tables<"people">
+  surveys: Tables<"surveys"> & {
+    questions: Tables<"questions">[] &
+      {
+        question_types: Tables<"question_types">
+        options: Tables<"options">[]
+        answers: Array<
+          Tables<"answers"> & {
+            answer_options: Array<Tables<"answer_options">> | null
+          }
+        >
+      }[]
   }
 }
 
@@ -50,16 +50,14 @@ onMounted(async () => {
     surveyStore.getUnpublishedSurveysCount(),
     surveyStore.getRecentSurveys(),
     responseStore.getResponsesCount(),
-    responseStore.getRecentResponses()
+    responseStore.getRecentResponses(),
   ])
   isLoading.value = false
 })
 </script>
 
 <template>
-  <p class="text-sm text-muted-foreground">
-    Visão geral sobre seus questionários.
-  </p>
+  <p class="text-sm text-muted-foreground">Visão geral sobre seus questionários.</p>
   <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
     <CardReportWidget :is-loading="isLoading" title="Questionários Criados" :value="createdSurveysCount" />
     <CardReportWidget :is-loading="isLoading" title="Questionários Não Publicados" :value="unpublishedSurveysCount" />
@@ -78,10 +76,10 @@ onMounted(async () => {
               <div class="flex justify-between">
                 <h1 class="text-lg font-bold">{{ survey.title }}</h1>
                 <Badge :variant="survey.survey_status.slug === 'published' ? 'default' : 'destructive'">
-                  {{ survey.survey_status.slug === 'published' ? 'Publicado' : 'Não publicado' }}
+                  {{ survey.survey_status.slug === "published" ? "Publicado" : "Não publicado" }}
                 </Badge>
               </div>
-                <p class="text-sm text-muted-foreground">{{ survey.description }}</p>
+              <p class="text-sm text-muted-foreground">{{ survey.description }}</p>
             </div>
           </CardContent>
         </Card>

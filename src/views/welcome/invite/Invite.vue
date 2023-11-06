@@ -1,14 +1,7 @@
 <script setup lang="ts">
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent
-} from '@/components/ui/card'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 
-import InviteForm from '@/views/welcome/invite/InviteForm.vue'
-
+import InviteForm from "@/views/welcome/invite/InviteForm.vue"
 </script>
 <template>
   <Card>

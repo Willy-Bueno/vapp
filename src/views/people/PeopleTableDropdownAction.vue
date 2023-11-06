@@ -1,12 +1,7 @@
 <script setup lang="ts">
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-  DropdownMenuItem
-} from '@/components/ui/dropdown-menu'
-import { Button } from '@/components/ui/button'
-import MoreHorizontal from '@/components/icons/MoreHorizontalIcon.vue'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button"
+import MoreHorizontal from "@/components/icons/MoreHorizontalIcon.vue"
 
 interface People {
   id: string
@@ -24,14 +19,8 @@ defineProps<People>()
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end">
-      <DropdownMenuItem>
-        Ver detalhes
-      </DropdownMenuItem>
-      <DropdownMenuItem
-        @click="() => $router.push({ name: 'surveys', query: { tab: 'interview', people: id } })"
-      >
-        Entrevistar
-      </DropdownMenuItem>
+      <DropdownMenuItem> Ver detalhes </DropdownMenuItem>
+      <DropdownMenuItem @click="() => $router.push({ name: 'surveys', query: { tab: 'interview', people: id } })"> Entrevistar </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
 </template>

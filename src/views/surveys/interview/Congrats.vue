@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import CheckIcon from '@/components/icons/CheckIcon.vue'
+import CheckIcon from "@/components/icons/CheckIcon.vue"
 </script>
 
 <template>
@@ -9,9 +9,7 @@
     </div>
     <div class="flex flex-col justify-center items-center max-w-md">
       <h1 class="text-2xl font-bold text-center">Obrigado!</h1>
-      <span class="text-muted-foreground text-sm text-center">
-        Obrigado por responder a pesquisa, sua resposta é muito importante para nós.
-      </span>
+      <span class="text-muted-foreground text-sm text-center"> Obrigado por responder a pesquisa, sua resposta é muito importante para nós. </span>
     </div>
   </div>
 </template>

@@ -1,24 +1,13 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed, onMounted } from "vue"
+import { useRouter } from "vue-router"
 
-import { useAuthStore } from '@/stores/auth'
-import { useUserStore } from '@/stores/user'
+import { useAuthStore } from "@/stores/auth"
+import { useUserStore } from "@/stores/user"
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 const router = useRouter()
 
@@ -29,7 +18,7 @@ const user = computed(() => userStore.user)
 
 const handleLogout = async () => {
   await authStore.logout()
-  router.push({ name: 'login' })
+  router.push({ name: "login" })
 }
 
 onMounted(async () => {
@@ -46,11 +35,11 @@ onMounted(async () => {
           <AvatarFallback>
             {{
               user?.name
-              .split(' ')
-              .slice(0, 2)
-              .map((n: string) => n[0])
-              .join('')
-              .toUpperCase()
+                .split(" ")
+                .slice(0, 2)
+                .map((n: string) => n[0])
+                .join("")
+                .toUpperCase()
             }}
           </AvatarFallback>
         </Avatar>
@@ -60,12 +49,7 @@ onMounted(async () => {
       <DropdownMenuLabel class="font-normal flex">
         <div class="flex flex-col space-y-1">
           <p class="text-sm font-medium leading-none">
-            {{
-              user?.name
-              .split(' ')
-              .slice(0, 2)
-              .join(' ')
-            }}
+            {{ user?.name.split(" ").slice(0, 2).join(" ") }}
           </p>
           <p class="text-xs leading-none text-muted-foreground">
             {{ user?.email }}
@@ -73,9 +57,7 @@ onMounted(async () => {
         </div>
       </DropdownMenuLabel>
       <DropdownMenuSeparator />
-      <DropdownMenuItem @click="handleLogout">
-        Sair
-      </DropdownMenuItem>
+      <DropdownMenuItem @click="handleLogout"> Sair </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
 </template>

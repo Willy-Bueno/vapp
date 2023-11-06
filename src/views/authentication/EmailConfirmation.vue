@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import CheckIcon from '@/components/icons/CheckIcon.vue'
+import CheckIcon from "@/components/icons/CheckIcon.vue"
 </script>
 
 <template>
@@ -9,8 +9,12 @@
         <CheckIcon class="w-8 h-8 text-success" />
       </div>
       <h3 class="text-xl font-semibold">Verifique seu email</h3>
-      <p v-if="$route.query.type === 'register'" class="text-sm text-gray-500">Enviamos um email para <strong>{{ $route.query.email }}</strong> com um link para finalizar seu cadastro.</p>
-      <p v-if="$route.query.type === 'recovery'" class="text-sm text-gray-500">Enviamos um email para <strong>{{ $route.query.email }}</strong> com um link para acessar sua conta.</p>
+      <p v-if="$route.query.type === 'register'" class="text-sm text-gray-500">
+        Enviamos um email para <strong>{{ $route.query.email }}</strong> com um link para finalizar seu cadastro.
+      </p>
+      <p v-if="$route.query.type === 'recovery'" class="text-sm text-gray-500">
+        Enviamos um email para <strong>{{ $route.query.email }}</strong> com um link para acessar sua conta.
+      </p>
     </div>
   </div>
 </template>

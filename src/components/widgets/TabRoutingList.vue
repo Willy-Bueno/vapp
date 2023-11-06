@@ -1,22 +1,11 @@
 <script setup lang="ts">
-import { ref, watch, onBeforeMount } from 'vue'
-import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
+import { ref, watch, onBeforeMount } from "vue"
+import { breakpointsTailwind, useBreakpoints } from "@vueuse/core"
 
-import { useRouter } from 'vue-router'
+import { useRouter } from "vue-router"
 
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-} from '@/components/ui/tabs'
-import {
-  Select,
-  SelectContent,
-  SelectValue,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-} from '@/components/ui/select'
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Select, SelectContent, SelectValue, SelectGroup, SelectItem, SelectTrigger } from "@/components/ui/select"
 
 type TabsProps = {
   defaultTab: string
@@ -36,7 +25,7 @@ const tab = ref(props.defaultTab)
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 
-const smAndLarger = breakpoints.greaterOrEqual('sm')
+const smAndLarger = breakpoints.greaterOrEqual("sm")
 
 watch(tab, (value) => {
   const query = router.currentRoute.value.query
@@ -57,8 +46,8 @@ onBeforeMount(() => {
   <Tabs v-model="tab" :default-value="props.defaultTab" class="space-y-4 px-4 md:px-8">
     <div class="w-full flex justify-between items-center">
       <TabsList v-if="smAndLarger">
-        <TabsTrigger  v-for="tab in props.tabs" :key="tab.name" :value="tab.name" :disabled="tab.disabled">
-          {{ tab.label }}
+        <TabsTrigger v-for="tabT in props.tabs" :key="tabT.name" :value="tabT.name" :disabled="tabT.disabled">
+          {{ tabT.label }}
         </TabsTrigger>
       </TabsList>
       <Select v-else v-model="tab" class="hidden">
@@ -67,13 +56,13 @@ onBeforeMount(() => {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectItem v-for="tab in props.tabs" :key="tab.name" :value="tab.name">
-              {{ tab.label }}
+            <SelectItem v-for="tabI in props.tabs" :key="tabI.name" :value="tabI.name">
+              {{ tabI.label }}
             </SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>
-      <slot v-if="!tabAction || tabAction === tab" name="actions" ></slot>
+      <slot v-if="!tabAction || tabAction === tab" name="actions"></slot>
     </div>
     <slot name="tabs-content"></slot>
   </Tabs>

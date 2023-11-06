@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useDark, useToggle } from '@vueuse/core'
+import { useDark, useToggle } from "@vueuse/core"
 
-import MoonIcon from '@/components/icons/MoonIcon.vue'
-import SunIcon from '@/components/icons/SunIcon.vue'
+import MoonIcon from "@/components/icons/MoonIcon.vue"
+import SunIcon from "@/components/icons/SunIcon.vue"
 
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button"
 
-const isDark = useDark({ storageKey: 'theme' })
+const isDark = useDark({ storageKey: "theme" })
 
 const toggleDark = useToggle(isDark)
 </script>
